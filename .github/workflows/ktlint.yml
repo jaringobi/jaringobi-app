@@ -1,22 +1,23 @@
 name: ktlint
 
 on:
-    pull_request:
-        branches:
-            - main
-            - develop
-jobs:
-    ktlint:
-        name: Check Code Quality
-        runs-on: ubuntu-latest
+  pull_request:
+    branches:
+      - main
+      - develop
 
-        steps:
-            - name: Clone repo
-              uses: actions/checkout@master
-              with:
-                  fetch-depth: 1
-            - name: ktlint
-              uses: ScaCap/action-ktlint@master
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  reporter: github-pr-check
+jobs:
+  ktlint:
+    name: Check Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: ktlint
+        uses: ScaCap/action-ktlint@master
+        with:
+          github_token: ${{ secrets.GIT_TOKEN }}
+          reporter: github-pr-check

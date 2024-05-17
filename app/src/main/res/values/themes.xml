@@ -1,9 +1,33 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
+
     <style name="Base.Theme.Jaringobi" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textViewStyle">@style/myTextViewFontStyle</item>
+        <item name="android:buttonStyle">@style/myButtonFontStyle</item>
+        <item name="android:editTextStyle">@style/myEditTextFontStyle</item>
+        <item name="android:radioButtonStyle">@style/myRadioButtonFontStyle</item>
+        <item name="android:checkboxStyle">@style/myCheckboxFontStyle</item>
     </style>
 
     <style name="Theme.Jaringobi" parent="Base.Theme.Jaringobi" />
+
+    <style name="myTextViewFontStyle" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:fontFamily">@font/pretendard</item>
+    </style>
+
+    <style name="myButtonFontStyle" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
+        <item name="android:fontFamily">@font/pretendard</item>
+    </style>
+
+    <style name="myEditTextFontStyle" parent="@android:style/Widget.DeviceDefault.EditText">
+        <item name="android:fontFamily">@font/pretendard</item>
+    </style>
+
+    <style name="myRadioButtonFontStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.RadioButton">
+        <item name="android:fontFamily">@font/pretendard</item>
+    </style>
+
+    <style name="myCheckboxFontStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
+        <item name="android:fontFamily">@font/pretendard</item>
+    </style>
+
 </resources>

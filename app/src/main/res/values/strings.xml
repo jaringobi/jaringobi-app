@@ -10,4 +10,10 @@
     <string name="text_dialog_ok">확인</string>
     <string name="text_dialog_cancel">취소</string>
 
+    <!-- 메인 페이지 -->
+    <string name="text_month_goal">이번 달 지출 목표</string>
+    <string name="text_add_list">지출 내역 추가하기</string>
+    <string name="text_total_cost">총 지출</string>
+
+
 </resources>

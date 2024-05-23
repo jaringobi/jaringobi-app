@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="start_semibold_18">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="dialog_semibold_20">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="dialog_semibold_14">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+</resources>

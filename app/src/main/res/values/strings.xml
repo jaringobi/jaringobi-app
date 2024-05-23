@@ -6,7 +6,7 @@
     <string name="text_start">바로 시작하기</string>
 
     <!-- 다이얼로그 -->
-    <string name="text_dialog_title">이번 달 지출목표</string>
+    <string name="text_dialog_title">이번 달 지출 목표</string>
     <string name="text_dialog_ok">확인</string>
     <string name="text_dialog_cancel">취소</string>
 

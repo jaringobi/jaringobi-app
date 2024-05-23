@@ -14,8 +14,8 @@ import com.example.jaringobi.utils.GetDisplayUtil
 @Suppress("DEPRECATION")
 class StartDialog : DialogFragment() {
     var listener: OnGoalSetListener? = null
-    private var _binding: DialogSelectGoalBinding? = null
-    private val binding get() = _binding!!
+    private var mbinding: DialogSelectGoalBinding? = null
+    private val binding get() = mbinding!!
 
     override fun onStart() {
         super.onStart()
@@ -34,7 +34,7 @@ class StartDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = DialogSelectGoalBinding.inflate(inflater, container, false)
+        mbinding = DialogSelectGoalBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // 확인 버튼
@@ -57,6 +57,6 @@ class StartDialog : DialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        mbinding = null
     }
 }

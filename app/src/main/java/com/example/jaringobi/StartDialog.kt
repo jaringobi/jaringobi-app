@@ -41,7 +41,7 @@ class StartDialog : DialogFragment() {
         binding.btnSelectOk.setOnClickListener {
             val monthGoal = binding.etMonthGoal.text.toString()
             if (monthGoal.isBlank()) {
-                Toast.makeText(requireContext(), "목표 금액을 입력해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "목표 금액을 입력해 주세요", Toast.LENGTH_SHORT).show()
             } else {
                 listener?.onGoalSet(monthGoal)
             }

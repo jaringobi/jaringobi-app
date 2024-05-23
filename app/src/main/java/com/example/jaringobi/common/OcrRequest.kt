@@ -10,4 +10,3 @@ interface OcrRequest {
         @Header("X-OCR-SECRET") token: String,
     ): Call<Unit>
 }
-

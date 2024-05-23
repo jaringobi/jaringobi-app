@@ -28,7 +28,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
             db?.execSQL(ExpenseEntry.DROP_TABLE)
             db?.execSQL(GoalEntry.DROP_TABLE)
         }.start()
-        
         onCreate(db)
     }
 }

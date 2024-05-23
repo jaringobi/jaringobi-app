@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_round"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            style="@style/dialog_semibold_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_dialog_title"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_month_goal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/tv_won"
+            app:layout_constraintStart_toStartOf="@id/tv_dialog_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_dialog_title" />
+
+        <TextView
+            android:id="@+id/tv_won"
+            style="@style/dialog_semibold_20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="원"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/et_month_goal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_month_goal" />
+
+        <Button
+            android:id="@+id/btn_select_ok"
+            style="@style/dialog_semibold_14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/round_rectangle"
+            android:text="@string/text_dialog_ok"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/btn_select_no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_month_goal" />
+
+        <Button
+            android:id="@+id/btn_select_no"
+            style="@style/dialog_semibold_14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_rectangle"
+            android:stateListAnimator="@null"
+            android:text="@string/text_dialog_cancel"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_select_ok"
+            app:layout_constraintTop_toTopOf="@id/btn_select_ok" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

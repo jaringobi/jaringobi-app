@@ -14,6 +14,9 @@
     <string name="text_month_goal">이번 달 지출 목표</string>
     <string name="text_add_list">지출 내역 추가하기</string>
     <string name="text_total_cost">총 지출</string>
+    <string name="text_compare_cost">지난 달보다</string>
+    <string name="text_recent_cost">최근 지출내역</string>
+    <string name="text_detail_cost">지출내역 더보기</string>
 
 
 </resources>

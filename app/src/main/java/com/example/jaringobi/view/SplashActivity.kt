@@ -1,4 +1,4 @@
-package com.example.jaringobi
+package com.example.jaringobi.view
 
 import android.app.Activity
 import android.content.Intent

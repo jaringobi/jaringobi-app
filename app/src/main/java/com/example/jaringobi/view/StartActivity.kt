@@ -1,10 +1,13 @@
-package com.example.jaringobi
+package com.example.jaringobi.view
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.jaringobi.OnGoalSetListener
+import com.example.jaringobi.StartDialog
 import com.example.jaringobi.databinding.ActivityStartBinding
+import com.example.jaringobi.view.mainpage.MainActivity
 
 class StartActivity : AppCompatActivity(), OnGoalSetListener {
     private lateinit var binding: ActivityStartBinding

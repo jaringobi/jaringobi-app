@@ -9,37 +9,33 @@
     android:padding="24dp">
 
     <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggle_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="44dp"
-        android:background="@color/light_gray"
-        android:padding="2dp"
+        android:background="@drawable/round_button"
+        android:backgroundTint="@color/light_gray"
+        android:paddingHorizontal="6dp"
+        android:paddingVertical="0dp"
         app:singleSelection="true">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button1"
+            style="@style/ToggleButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:focusedByDefault="true"
-            android:fontFamily="@font/pretendard_medium"
-            android:letterSpacing="-0.05"
-            android:padding="12dp"
             android:text="@string/receipt_picture"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textColor="@drawable/toggle_button_text" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button2"
+            style="@style/ToggleButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/pretendard_medium"
-            android:letterSpacing="-0.05"
-            android:padding="12dp"
             android:text="@string/directly"
-            android:textColor="@color/dark_gray"
-            android:textSize="18sp" />
+            android:textColor="@drawable/toggle_button_text" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <LinearLayout
@@ -49,22 +45,18 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/EditTextLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_medium"
             android:labelFor="@id/date_picker"
-            android:letterSpacing="-0.05"
-            android:text="@string/date"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:text="@string/date" />
 
         <DatePicker
             android:id="@+id/date_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:letterSpacing="-0.05" />
+            android:datePickerMode="spinner" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,15 +66,11 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/EditTextLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/pretendard_medium"
             android:labelFor="@+id/input_place"
-            android:letterSpacing="-0.05"
-            android:text="@string/place"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:text="@string/place" />
 
         <EditText
             android:id="@+id/input_place"
@@ -92,7 +80,6 @@
             android:fontFamily="@font/pretendard_medium"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:letterSpacing="-0.05"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -104,15 +91,11 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/EditTextLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/pretendard_medium"
             android:labelFor="@+id/input_amount"
-            android:letterSpacing="-0.05"
-            android:text="@string/amount"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:text="@string/amount" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -128,7 +111,6 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:importantForAutofill="no"
                 android:inputType="number"
-                android:letterSpacing="-0.05"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -137,9 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/pretendard_medium"
-
                 android:gravity="center_horizontal"
-                android:letterSpacing="-0.05"
                 android:text="@string/won"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -147,12 +127,11 @@
     </LinearLayout>
 
     <Button
+        style="@style/GrayButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pretendard_medium"
-        android:letterSpacing="-0.05"
         android:text="@string/add"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:backgroundTint="@color/light_gray" />
 
 </LinearLayout>

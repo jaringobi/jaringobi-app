@@ -10,5 +10,7 @@ class AddExpenseActivity : AppCompatActivity() {
 
         val binding = ActivityAddExpenseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toggleGroup.check(binding.button1.id)
     }
 }

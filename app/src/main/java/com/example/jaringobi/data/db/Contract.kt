@@ -1,4 +1,4 @@
-package com.example.jaringobi.db
+package com.example.jaringobi.data.db
 
 import android.provider.BaseColumns
 

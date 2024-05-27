@@ -1,4 +1,4 @@
-package com.example.jaringobi
+package com.example.jaringobi.view.addExpensePage
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,5 +12,10 @@ class AddExpenseActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.toggleGroup.check(binding.button1.id)
+
+        // 뒤로가기
+        binding.ibBack.setOnClickListener {
+            finish()
+        }
     }
 }

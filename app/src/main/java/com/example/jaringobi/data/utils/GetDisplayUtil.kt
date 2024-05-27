@@ -1,4 +1,4 @@
-package com.example.jaringobi.utils
+package com.example.jaringobi.data.utils
 
 import android.content.Context
 import android.os.Build

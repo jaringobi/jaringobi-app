@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
+    id("kotlin-kapt")
 }
 
 val localProperties = Properties()
@@ -64,7 +65,17 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.adapter.rxjava2)
+//    implementation(libs.retrofit)
+//    implementation(libs.converter.gson)
+//    implementation(libs.adapter.rxjava2)
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    // http LoggingInterceptor
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // RoomDB
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 }

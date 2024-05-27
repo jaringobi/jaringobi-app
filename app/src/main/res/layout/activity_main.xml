@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <Toolbar
         android:id="@+id/tb_mainpage"
@@ -194,21 +195,21 @@
         android:id="@+id/lv_recent_cost"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:scrollbars="none"
-        android:outlineAmbientShadowColor="@color/black"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:outlineAmbientShadowColor="@color/black"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/tv_recent_cost" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_detail_cost"
+        style="@style/main_semibold_20"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:textColor="@color/white"
-        style="@style/main_semibold_20"
         android:background="@drawable/round_rectangle"
         android:text="@string/text_detail_cost"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/btn_add_list"
         app:layout_constraintStart_toStartOf="@id/btn_add_list" />

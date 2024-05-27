@@ -23,24 +23,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      
+
         <activity
             android:name=".AddExpenseActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-          
+            android:exported="true" />
+
         <activity
             android:name=".view.StartActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
 
         <activity
             android:name=".view.mainpage.MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
     </application>
-
 </manifest>

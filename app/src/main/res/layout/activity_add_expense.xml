@@ -172,4 +172,5 @@
         android:background="@drawable/round_rectangle"
         android:text="@string/add"
         android:textColor="@color/white" />
+
 </LinearLayout>

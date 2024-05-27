@@ -80,6 +80,10 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             moveActivity(AddExpenseActivity())
         }
 
+        binding.btnAddList.setOnClickListener {
+            moveActivity(AddExpenseActivity())
+        }
+
 //        dbHelper = DBHelper(this)
     }
 

@@ -25,6 +25,12 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="main_semibold_18">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="main_semibold_20">
         <item name="fontFamily">@font/pretendard_semibold</item>
         <item name="android:textSize">20sp</item>

@@ -5,21 +5,23 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_mainpage"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/grey"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/light_grey"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:layout_width="134dp"
-        android:layout_height="28dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_logo"
-        app:layout_constraintBottom_toBottomOf="@id/tb_mainpage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tb_mainpage" />
+        <ImageView
+            android:layout_width="134dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="16dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_logo"
+            app:layout_constraintBottom_toBottomOf="@id/tb_mainpage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tb_mainpage" />
+    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:id="@+id/iv_left"
@@ -27,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:importantForAccessibility="no"
         android:src="@drawable/ic_left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tb_mainpage" />
@@ -47,13 +50,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:importantForAccessibility="no"
         android:src="@drawable/ic_right"
         app:layout_constraintStart_toEndOf="@id/tv_now_month"
         app:layout_constraintTop_toTopOf="@id/iv_left" />
 
     <TextView
         android:id="@+id/tv_month_goal"
-        style="@style/main_semibold_20"
+        style="@style/main_semibold_18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -71,7 +75,7 @@
 
         <TextView
             android:id="@+id/tv_month_goal_data"
-            style="@style/main_semibold_20"
+            style="@style/main_semibold_18"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="start|center"
@@ -88,9 +92,7 @@
             android:layout_gravity="end|center"
             android:layout_marginEnd="26dp"
             android:text="원" />
-
     </FrameLayout>
-
 
     <FrameLayout
         android:id="@+id/layout_without_data"
@@ -102,7 +104,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_set_goal"
-            style="@style/main_semibold_20"
+            style="@style/main_semibold_18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -110,12 +112,11 @@
             android:background="@drawable/round_rectangle"
             android:text="@string/text_select_goal"
             android:textColor="@color/white" />
-
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_add_list"
-        style="@style/main_semibold_20"
+        style="@style/main_semibold_18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -129,7 +130,7 @@
 
     <TextView
         android:id="@+id/tv_total_cost_view"
-        style="@style/main_semibold_20"
+        style="@style/main_semibold_18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -183,7 +184,7 @@
 
     <TextView
         android:id="@+id/tv_recent_cost"
-        style="@style/main_semibold_20"
+        style="@style/main_semibold_18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -203,7 +204,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_detail_cost"
-        style="@style/main_semibold_20"
+        style="@style/main_semibold_18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -213,6 +214,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/btn_add_list"
         app:layout_constraintStart_toStartOf="@id/btn_add_list" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

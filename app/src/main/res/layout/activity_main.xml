@@ -177,7 +177,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="지난 달보다 9만원 더 썼어요"
-        android:textColor="@color/darkgrey"
+        android:textColor="@color/dark_grey"
         app:layout_constraintStart_toStartOf="@id/tv_total_cost"
         app:layout_constraintTop_toBottomOf="@id/tv_total_cost" />
 

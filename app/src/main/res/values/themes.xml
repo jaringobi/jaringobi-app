@@ -8,6 +8,8 @@
         <item name="android:checkboxStyle">@style/myCheckboxFontStyle</item>
         <item name="android:textAppearance">@style/AppTextStyle</item>
         <item name="android:textAppearanceButton">@style/AppTextStyle</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="ToggleButton" parent="Widget.MaterialComponents.Button">

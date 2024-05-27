@@ -1,5 +1,7 @@
 package com.example.jaringobi.view.mainpage
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,6 +11,7 @@ import com.example.jaringobi.OnGoalSetListener
 import com.example.jaringobi.StartDialog
 import com.example.jaringobi.data.RecentCost
 import com.example.jaringobi.databinding.ActivityMainBinding
+import com.example.jaringobi.view.AddExpenseActivity
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(), OnGoalSetListener {
@@ -43,6 +46,10 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         val adapter = MainLvAdapter(this, costList)
         binding.lvRecentCost.adapter = adapter
 
+        binding.btnAddList.setOnClickListener {
+            moveActivity(AddExpenseActivity())
+        }
+
 //        dbHelper = DBHelper(this)
     }
 
@@ -70,5 +77,11 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
 
     override fun onGoalSet(monthGoal: String) {
         updateUI(monthGoal)
+    }
+
+    private fun moveActivity(p: Activity) {
+        val intent = Intent(this, p::class.java)
+        startActivity(intent)
+//        finish()
     }
 }

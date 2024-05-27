@@ -25,7 +25,7 @@
         </activity>
 
         <activity
-            android:name=".AddExpenseActivity"
+            android:name=".view.AddExpenseActivity"
             android:exported="true" />
 
         <activity

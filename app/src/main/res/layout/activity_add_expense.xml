@@ -9,14 +9,13 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="-24dp"
         android:layout_marginTop="-24dp"
         android:layout_marginEnd="-24dp"
-        android:background="@color/grey">
+        android:background="@color/light_grey">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,24 +25,25 @@
                 android:id="@+id/ib_back"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="@color/grey"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/light_grey"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_back"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/ic_back"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="134dp"
                 android:layout_height="28dp"
                 android:layout_marginEnd="16dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/ic_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggle_group"
@@ -165,10 +165,10 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/main_semibold_20"
-        android:layout_marginTop="12dp"
+        style="@style/main_semibold_18"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:background="@drawable/round_rectangle"
         android:text="@string/add"
         android:textColor="@color/white" />

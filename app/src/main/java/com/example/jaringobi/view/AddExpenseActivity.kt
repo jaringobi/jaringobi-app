@@ -12,8 +12,10 @@ class AddExpenseActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.toggleGroup.check(binding.button1.id)
+
+        // 뒤로가기
         binding.ibBack.setOnClickListener {
-            finish() // 메인액티비티로 뒤로가기
+            finish()
         }
     }
 }

@@ -6,6 +6,9 @@
         <item name="android:editTextStyle">@style/myEditTextFontStyle</item>
         <item name="android:radioButtonStyle">@style/myRadioButtonFontStyle</item>
         <item name="android:checkboxStyle">@style/myCheckboxFontStyle</item>
+
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.Jaringobi" parent="Base.Theme.Jaringobi" />

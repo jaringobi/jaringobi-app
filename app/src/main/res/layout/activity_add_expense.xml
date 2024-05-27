@@ -133,5 +133,4 @@
         android:text="@string/add"
         android:textSize="18sp"
         app:backgroundTint="@color/light_gray" />
-
 </LinearLayout>

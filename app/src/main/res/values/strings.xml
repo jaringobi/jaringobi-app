@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">jaringobi</string>
+    <string name="receipt_picture">영수증 사진</string>
+    <string name="directly">직접 입력</string>
+    <string name="place">사용처</string>
+    <string name="amount">금액</string>
+    <string name="won">원</string>
+    <string name="add">추가하기</string>
+    <string name="date">날짜</string>
 
     <!-- 시작 페이지 -->
     <string name="text_select_goal">지출 목표 설정하기</string>
@@ -17,6 +24,4 @@
     <string name="text_compare_cost">지난 달보다</string>
     <string name="text_recent_cost">최근 지출내역</string>
     <string name="text_detail_cost">지출내역 더보기</string>
-
-
 </resources>

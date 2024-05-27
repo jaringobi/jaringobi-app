@@ -1,8 +1,17 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
+
+val localProperties = Properties()
+localProperties.load(FileInputStream("local.properties"))
+
+val ocrApiUrl: String = localProperties.getProperty("OCR_API_URL") ?: ""
+val ocrKey: String = localProperties.getProperty("OCR_KEY") ?: ""
 
 android {
     namespace = "com.example.jaringobi"
@@ -16,6 +25,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "OCR_API_URL", "\"${ocrApiUrl}\"")
+        buildConfigField("String", "OCR_KEY", "\"${ocrKey}\"")
     }
 
     buildTypes {
@@ -36,6 +48,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
         dataBinding = true
     }
 }
@@ -49,4 +62,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.adapter.rxjava2)
 }

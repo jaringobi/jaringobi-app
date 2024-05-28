@@ -15,4 +15,7 @@ interface ExpenseDAO {
 
     @Query("DELETE FROM expenseList")
     fun deleteAllExpenses() // expenseList의 모든 행 삭제
+
+    @Query("SELECT * FROM expenseList WHERE SUBSTR(date, 4, 2) = :month")
+    fun getExpensesByMonth(month: String): List<ExpenseEntity> // 특정 월의 데이터 조회
 }

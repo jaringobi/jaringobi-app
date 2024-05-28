@@ -1,4 +1,4 @@
-package com.example.jaringobi
+package com.example.jaringobi.view.custom
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.jaringobi.databinding.DialogSelectGoalBinding
-import com.example.jaringobi.utils.GetDisplayUtil
+import com.example.jaringobi.data.utils.GetDisplayUtil
 
 @Suppress("DEPRECATION")
 class StartDialog : DialogFragment() {

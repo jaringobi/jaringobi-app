@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.jaringobi.data.RecentCost
+import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ItemRecentCostBinding
 
-class MainLvAdapter(val context: Context, val costList: ArrayList<RecentCost>) : BaseAdapter() {
+class MainLvAdapter(val context: Context, val costList: List<ExpenseEntity>) : BaseAdapter() {
     private lateinit var binding: ItemRecentCostBinding
 
     override fun getView(

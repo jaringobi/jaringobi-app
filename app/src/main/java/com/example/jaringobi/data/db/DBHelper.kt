@@ -1,10 +1,11 @@
-package com.example.jaringobi.db
+package com.example.jaringobi.data.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.jaringobi.db.Contract.ExpenseEntry
-import com.example.jaringobi.db.Contract.GoalEntry
+import com.example.jaringobi.data.db.Contract
+import com.example.jaringobi.data.db.Contract.ExpenseEntry
+import com.example.jaringobi.data.db.Contract.GoalEntry
 
 class DBHelper(context: Context) : SQLiteOpenHelper(
     context,

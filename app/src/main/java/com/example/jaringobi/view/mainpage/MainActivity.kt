@@ -9,13 +9,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.jaringobi.R
-import com.example.jaringobi.view.custom.OnGoalSetListener
-import com.example.jaringobi.view.custom.StartDialog
 import com.example.jaringobi.data.db.AppDatabase
 import com.example.jaringobi.data.db.ExpenseDAO
 import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ActivityMainBinding
 import com.example.jaringobi.view.addExpensePage.AddExpenseActivity
+import com.example.jaringobi.view.custom.OnGoalSetListener
+import com.example.jaringobi.view.custom.StartDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var expenseDAO: ExpenseDAO
     private lateinit var db: AppDatabase
-
 
 //    private lateinit var dbHelper: DBHelper
 
@@ -119,42 +118,47 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             withContext(Dispatchers.IO) {
                 val expenseDAO = db.getExpenseDAO()
                 val monthString = if (month < 10) "0$month" else month.toString()
-                val expenseList = withContext(Dispatchers.IO) {
-                    expenseDAO.getExpensesByMonth(monthString)
-                }
+                val expenseList =
+                    withContext(Dispatchers.IO) {
+                        expenseDAO.getExpensesByMonth(monthString)
+                    }
 
                 val prevMonth = month - 1
                 val prevMonthString = if (prevMonth < 10) "0$prevMonth" else prevMonth.toString()
-                val prevExpenseList = withContext(Dispatchers.IO) {
-                    expenseDAO.getExpensesByMonth(prevMonthString)
-                }
+                val prevExpenseList =
+                    withContext(Dispatchers.IO) {
+                        expenseDAO.getExpensesByMonth(prevMonthString)
+                    }
 
                 // 일별로 내림차순 정렬
                 val sortedExpenseList =
                     expenseList.sortedByDescending { it.date.substring(6, 8).toInt() }
 
                 // 요일 추가
-                val formattedExpenseList = sortedExpenseList.map { expense ->
-                    val date =
-                        LocalDate.parse(expense.date, DateTimeFormatter.ofPattern("yy-MM-dd"))
-                    val dayOfWeek = date.dayOfWeek
-                    val dayOfWeekKorean = when (dayOfWeek) {
-                        DayOfWeek.MONDAY -> "월"
-                        DayOfWeek.TUESDAY -> "화"
-                        DayOfWeek.WEDNESDAY -> "수"
-                        DayOfWeek.THURSDAY -> "목"
-                        DayOfWeek.FRIDAY -> "금"
-                        DayOfWeek.SATURDAY -> "토"
-                        DayOfWeek.SUNDAY -> "일"
+                val formattedExpenseList =
+                    sortedExpenseList.map { expense ->
+                        val date =
+                            LocalDate.parse(expense.date, DateTimeFormatter.ofPattern("yy-MM-dd"))
+                        val dayOfWeek = date.dayOfWeek
+                        val dayOfWeekKorean =
+                            when (dayOfWeek) {
+                                DayOfWeek.MONDAY -> "월"
+                                DayOfWeek.TUESDAY -> "화"
+                                DayOfWeek.WEDNESDAY -> "수"
+                                DayOfWeek.THURSDAY -> "목"
+                                DayOfWeek.FRIDAY -> "금"
+                                DayOfWeek.SATURDAY -> "토"
+                                DayOfWeek.SUNDAY -> "일"
+                            }
+                        val formattedDate = "${expense.date} ($dayOfWeekKorean)"
+                        expense.copy(date = formattedDate)
                     }
-                    val formattedDate = "${expense.date} ($dayOfWeekKorean)"
-                    expense.copy(date = formattedDate)
-                }
 
                 // 총 지출 계산
-                val totalCost = formattedExpenseList.sumOf {
-                    it.cost.replace(",", "").replace(" 원", "").toInt()
-                }
+                val totalCost =
+                    formattedExpenseList.sumOf {
+                        it.cost.replace(",", "").replace(" 원", "").toInt()
+                    }
                 // 이전 달 지출 계산
                 val prevTotalCost =
                     prevExpenseList.sumOf { it.cost.replace(",", "").replace(" 원", "").toInt() }
@@ -169,27 +173,31 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
 
                     if (prevTotalCost > totalCost) {
                         costDifference = prevTotalCost - totalCost
-                        binding.tvCompareCost.text = getString(
-                            R.string.text_compare_expense,
-                            costDifference.toString(), "덜"
-                        )
+                        binding.tvCompareCost.text =
+                            getString(
+                                R.string.text_compare_expense,
+                                costDifference.toString(), "덜",
+                            )
                         binding.ivUpdown.setImageResource(R.drawable.ic_down)
                     } else {
                         costDifference = totalCost - prevTotalCost
-                        binding.tvCompareCost.text = getString(
-                            R.string.text_compare_expense,
-                            costDifference.toString(),
-                            "더"
-                        )
+                        binding.tvCompareCost.text =
+                            getString(
+                                R.string.text_compare_expense,
+                                costDifference.toString(),
+                                "더",
+                            )
                         binding.ivUpdown.setImageResource(R.drawable.ic_up)
                     }
 
-                    val percentageChange = if (prevTotalCost != 0) {
-                        Math.round((costDifference.toDouble() / prevTotalCost.toDouble()) * 100 * 100) / 100
-                    } else {
-                        0.0
-                    }
-                    binding.tvCompareCostPercent.text = getString(R.string.text_compare_expense_percent, percentageChange.toDouble())
+                    val percentageChange =
+                        if (prevTotalCost != 0) {
+                            Math.round((costDifference.toDouble() / prevTotalCost.toDouble()) * 100 * 100) / 100
+                        } else {
+                            0.0
+                        }
+                    binding.tvCompareCostPercent.text =
+                        getString(R.string.text_compare_expense_percent, percentageChange.toDouble())
                 }
             }
         }

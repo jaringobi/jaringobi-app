@@ -11,23 +11,26 @@ object RetrofitClient {
     private var instance: Retrofit? = null
     private val gson = GsonBuilder().setLenient().create()
 
-    private val loggingInterceptor = if (BuildConfig.DEBUG) {
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    } else {
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
-    }
+    private val loggingInterceptor =
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        } else {
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+        }
 
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
+    private val client =
+        OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
 
     fun getInstance(): Retrofit {
         if (instance == null) {
-            instance = Retrofit.Builder()
-                .baseUrl(BuildConfig.OCR_API_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .build()
+            instance =
+                Retrofit.Builder()
+                    .baseUrl(BuildConfig.OCR_API_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .client(client)
+                    .build()
         }
 
         return instance!!

@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.example.jaringobi.databinding.DialogSelectGoalBinding
 import com.example.jaringobi.data.utils.GetDisplayUtil
+import com.example.jaringobi.databinding.DialogSelectGoalBinding
 
 @Suppress("DEPRECATION")
 class StartDialog : DialogFragment() {

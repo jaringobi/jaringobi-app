@@ -16,6 +16,7 @@ import com.example.jaringobi.data.db.ExpenseDAO
 import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ActivityMainBinding
 import com.example.jaringobi.view.addExpensePage.AddExpenseActivity
+import com.example.jaringobi.view.expenseListPage.ExpenseListActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -107,8 +108,10 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             moveActivity(AddExpenseActivity())
         }
 
-        binding.btnAddList.setOnClickListener {
-            moveActivity(AddExpenseActivity())
+        // 지출내역 더보기 클릭시 지출내역 목록 페이지로 이동
+        binding.btnDetailCost.setOnClickListener {
+            val intent = Intent(this, ExpenseListActivity::class.java)
+            startActivity(intent)
         }
 
 //        dbHelper = DBHelper(this)

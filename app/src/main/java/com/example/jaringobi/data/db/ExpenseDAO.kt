@@ -18,4 +18,7 @@ interface ExpenseDAO {
 
     @Query("SELECT * FROM expenseList WHERE SUBSTR(date, 4, 2) = :month")
     fun getExpensesByMonth(month: String): List<ExpenseEntity> // 특정 월의 데이터 조회
+
+    @Query("SELECT * FROM expenseList WHERE date = :date")
+    fun getExpensesByDate(date: String): List<ExpenseEntity> // 특정 날짜의 데이터 조회
 }

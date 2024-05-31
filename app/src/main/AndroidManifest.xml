@@ -36,7 +36,8 @@
             android:name=".view.mainpage.MainActivity"
             android:exported="true" />
 
-        <activity android:name=".view.expenseListPage.ExpenseListActivity" />
+        <activity android:name=".view.expenseListPage.ExpenseListActivity"
+            android:exported="true"/>
 
     </application>
 </manifest>

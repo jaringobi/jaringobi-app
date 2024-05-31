@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.jaringobi.R
 import com.example.jaringobi.data.db.AppDatabase
-import com.example.jaringobi.data.db.ExpenseDAO
 import com.example.jaringobi.data.db.ExpenseEntity
+import com.example.jaringobi.data.db.MonthGoalEntity
 import com.example.jaringobi.databinding.ActivityMainBinding
 import com.example.jaringobi.view.addExpensePage.AddExpenseActivity
 import com.example.jaringobi.view.custom.OnGoalSetListener
@@ -22,14 +22,12 @@ import kotlinx.coroutines.withContext
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(), OnGoalSetListener {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var expenseDAO: ExpenseDAO
     private lateinit var db: AppDatabase
-
-//    private lateinit var dbHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +35,27 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         addOnBackPressedCallback()
+        // 데이터베이스 초기화 및 DAO 얻기
+        db = AppDatabase.getInstance(this)
 
-        var nowMonth = 5
+        // 현재 년도와 월을 가져옴
+        val now = Calendar.getInstance()
+        var nowYear = now.get(Calendar.YEAR)
+        var nowMonth = now.get(Calendar.MONTH) + 2
+        var monthString = if (nowMonth < 10) "0$nowMonth" else nowMonth.toString()
+        var dateString = "${nowYear}-${monthString}"
+        checkMonthGoal(dateString)
+
         binding.ivLeft.setOnClickListener {
             nowMonth -= 1
             if (nowMonth < 1) {
                 nowMonth = 12
+                nowYear -= 1
             }
             binding.tvNowMonth.text = getString(R.string.text_now_month, nowMonth.toString())
+            monthString = if (nowMonth < 10) "0$nowMonth" else nowMonth.toString()
+            dateString = "${nowYear}-${monthString}"
+            checkMonthGoal(dateString)
             updateExpenseList(nowMonth)
         }
 
@@ -52,28 +63,34 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             nowMonth += 1
             if (nowMonth > 12) {
                 nowMonth = 1
+                nowYear += 1
             }
             binding.tvNowMonth.text = getString(R.string.text_now_month, nowMonth.toString())
+            monthString = if (nowMonth < 10) "0$nowMonth" else nowMonth.toString()
+            dateString = "${nowYear}-${monthString}"
+            checkMonthGoal(dateString)
             updateExpenseList(nowMonth)
         }
 
-        val monthGoal = intent.getStringExtra("monthGoal")
-        Log.d("MainActivity", "Month Goal: $monthGoal")
-
-        updateUI(monthGoal)
-
-        binding.btnSetGoal.setOnClickListener {
-            val dialog = StartDialog()
-            dialog.listener = this // 리스너 설정
+        binding.btnModifyGoal.setOnClickListener {
+            Log.d("TAG4", dateString)
+            val dialog = StartDialog(dateString, true)
+            dialog.listener = this
             dialog.show(supportFragmentManager, "StartDialog")
         }
 
-        db = AppDatabase.getInstance(this)
+        binding.btnSetGoal.setOnClickListener {
+            Log.d("TAG4", dateString)
+            val dialog = StartDialog(dateString, false)
+            dialog.listener = this
+            dialog.show(supportFragmentManager, "StartDialog")
+        }
+
         // 더미 데이터 삽입
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val expenseDAO = db.getExpenseDAO()
-                db.getExpenseDAO().deleteAllExpenses()
+                expenseDAO.deleteAllExpenses()
 
                 expenseDAO.insertExpense(
                     ExpenseEntity(date = "24-06-22", store = "맘스터치", cost = "10,000 원"),
@@ -91,6 +108,9 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                     ExpenseEntity(date = "24-05-20", store = "이마트 에브리데이", cost = "8,000 원"),
                 )
                 expenseDAO.insertExpense(
+                    ExpenseEntity(date = "24-05-20", store = "이마트 에브리데이", cost = "10,000 원"),
+                )
+                expenseDAO.insertExpense(
                     ExpenseEntity(date = "24-05-25", store = "메머드커피", cost = "10,000 원"),
                 )
                 expenseDAO.insertExpense(
@@ -100,17 +120,15 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             }
         }
 
-//        val adapter = MainLvAdapter(this, expenseList)
-//        binding.lvRecentCost.adapter = adapter
         binding.btnAddList.setOnClickListener {
+            // 지출 내역 추가하기 페이지
             moveActivity(AddExpenseActivity())
         }
 
-        binding.btnAddList.setOnClickListener {
-            moveActivity(AddExpenseActivity())
+        binding.btnDetailCost.setOnClickListener {
+            // 지출 내역 더보기 페이지
+//            moveActivity(ExpenseDetailActivity())
         }
-
-//        dbHelper = DBHelper(this)
     }
 
     private fun updateExpenseList(month: Int) {
@@ -118,47 +136,42 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             withContext(Dispatchers.IO) {
                 val expenseDAO = db.getExpenseDAO()
                 val monthString = if (month < 10) "0$month" else month.toString()
-                val expenseList =
-                    withContext(Dispatchers.IO) {
-                        expenseDAO.getExpensesByMonth(monthString)
-                    }
+                val expenseList = withContext(Dispatchers.IO) {
+                    expenseDAO.getExpensesByMonth(monthString)
+                }
 
                 val prevMonth = month - 1
                 val prevMonthString = if (prevMonth < 10) "0$prevMonth" else prevMonth.toString()
-                val prevExpenseList =
-                    withContext(Dispatchers.IO) {
-                        expenseDAO.getExpensesByMonth(prevMonthString)
-                    }
+                val prevExpenseList = withContext(Dispatchers.IO) {
+                    expenseDAO.getExpensesByMonth(prevMonthString)
+                }
 
                 // 일별로 내림차순 정렬
                 val sortedExpenseList =
                     expenseList.sortedByDescending { it.date.substring(6, 8).toInt() }
 
                 // 요일 추가
-                val formattedExpenseList =
-                    sortedExpenseList.map { expense ->
-                        val date =
-                            LocalDate.parse(expense.date, DateTimeFormatter.ofPattern("yy-MM-dd"))
-                        val dayOfWeek = date.dayOfWeek
-                        val dayOfWeekKorean =
-                            when (dayOfWeek) {
-                                DayOfWeek.MONDAY -> "월"
-                                DayOfWeek.TUESDAY -> "화"
-                                DayOfWeek.WEDNESDAY -> "수"
-                                DayOfWeek.THURSDAY -> "목"
-                                DayOfWeek.FRIDAY -> "금"
-                                DayOfWeek.SATURDAY -> "토"
-                                DayOfWeek.SUNDAY -> "일"
-                            }
-                        val formattedDate = "${expense.date} ($dayOfWeekKorean)"
-                        expense.copy(date = formattedDate)
+                val formattedExpenseList = sortedExpenseList.map { expense ->
+                    val date =
+                        LocalDate.parse(expense.date, DateTimeFormatter.ofPattern("yy-MM-dd"))
+                    val dayOfWeek = date.dayOfWeek
+                    val dayOfWeekKorean = when (dayOfWeek) {
+                        DayOfWeek.MONDAY -> "월"
+                        DayOfWeek.TUESDAY -> "화"
+                        DayOfWeek.WEDNESDAY -> "수"
+                        DayOfWeek.THURSDAY -> "목"
+                        DayOfWeek.FRIDAY -> "금"
+                        DayOfWeek.SATURDAY -> "토"
+                        DayOfWeek.SUNDAY -> "일"
                     }
+                    val formattedDate = "${expense.date} ($dayOfWeekKorean)"
+                    expense.copy(date = formattedDate)
+                }
 
                 // 총 지출 계산
-                val totalCost =
-                    formattedExpenseList.sumOf {
-                        it.cost.replace(",", "").replace(" 원", "").toInt()
-                    }
+                val totalCost = formattedExpenseList.sumOf {
+                    it.cost.replace(",", "").replace(" 원", "").toInt()
+                }
                 // 이전 달 지출 계산
                 val prevTotalCost =
                     prevExpenseList.sumOf { it.cost.replace(",", "").replace(" 원", "").toInt() }
@@ -173,29 +186,33 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
 
                     if (prevTotalCost > totalCost) {
                         costDifference = prevTotalCost - totalCost
-                        binding.tvCompareCost.text =
-                            getString(
-                                R.string.text_compare_expense,
-                                costDifference.toString(), "덜",
-                            )
+                        binding.tvCompareCost.text = getString(
+                            R.string.text_compare_expense,
+                            costDifference.toString(), "덜"
+                        )
                         binding.ivUpdown.setImageResource(R.drawable.ic_down)
-                    } else {
+                    } else if (prevTotalCost < totalCost) {
                         costDifference = totalCost - prevTotalCost
-                        binding.tvCompareCost.text =
-                            getString(
-                                R.string.text_compare_expense,
-                                costDifference.toString(),
-                                "더",
-                            )
+                        binding.tvCompareCost.text = getString(
+                            R.string.text_compare_expense,
+                            costDifference.toString(),
+                            "더"
+                        )
                         binding.ivUpdown.setImageResource(R.drawable.ic_up)
+                    } else {
+                        binding.tvCompareCost.text = getString(
+                            R.string.text_compare_expense,
+                            costDifference.toString(),
+                            "더"
+                        )
+                        binding.ivUpdown.setImageResource(R.drawable.ic_same)
                     }
 
-                    val percentageChange =
-                        if (prevTotalCost != 0) {
-                            Math.round((costDifference.toDouble() / prevTotalCost.toDouble()) * 100 * 100) / 100
-                        } else {
-                            0.0
-                        }
+                    val percentageChange = if (prevTotalCost != 0) {
+                        Math.round((costDifference.toDouble() / prevTotalCost.toDouble()) * 100 * 100) / 100
+                    } else {
+                        0.0
+                    }
                     binding.tvCompareCostPercent.text =
                         getString(R.string.text_compare_expense_percent, percentageChange.toDouble())
                 }
@@ -214,24 +231,58 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         this.onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    private fun updateUI(monthGoal: String?) {
-        if (monthGoal.isNullOrEmpty()) {
+    private fun updateUI(monthGoal: Int?) {
+        if (monthGoal == null) {
+            binding.btnModifyGoal.visibility = View.GONE
             binding.layoutWithoutData.visibility = View.VISIBLE
             binding.layoutWithData.visibility = View.INVISIBLE
         } else {
-            binding.tvMonthGoalData.text = monthGoal
+            binding.btnModifyGoal.visibility = View.VISIBLE
+            binding.tvMonthGoalData.text = monthGoal.toString()
             binding.layoutWithoutData.visibility = View.INVISIBLE
             binding.layoutWithData.visibility = View.VISIBLE
         }
     }
 
-    override fun onGoalSet(monthGoal: String) {
-        updateUI(monthGoal)
+    override fun onGoalSet(date: String, monthGoal: Int) {
+        val goalDAO = db.goalDAO()
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                goalDAO.insertMonthGoal(MonthGoalEntity(month = date, goal = monthGoal))
+                withContext(Dispatchers.Main) {
+                    updateUI(monthGoal)
+                }
+            }
+        }
+    }
+
+    override fun onGoalModify(date: String, monthGoal: Int) {
+        val goalDAO = db.goalDAO()
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                goalDAO.updateMonthGoal(date, monthGoal)
+                withContext(Dispatchers.Main) {
+                    binding.tvMonthGoalData.text = monthGoal.toString()
+                }
+            }
+        }
     }
 
     private fun moveActivity(p: Activity) {
         val intent = Intent(this, p::class.java)
         startActivity(intent)
 //        finish()
+    }
+
+    private fun checkMonthGoal(dateString: String) {
+        val goalDAO = db.goalDAO()
+        // 데이터베이스에서 현재 월에 해당하는 monthGoal 조회
+        lifecycleScope.launch {
+            val monthGoal = withContext(Dispatchers.IO) {
+                goalDAO.getMonthGoal(dateString)
+            }
+            // 조회 결과에 따라 UI 업데이트
+            updateUI(monthGoal)
+        }
     }
 }

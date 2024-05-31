@@ -1,5 +1,7 @@
 package com.example.jaringobi.view.custom
 
 interface OnGoalSetListener {
-    fun onGoalSet(monthGoal: String)
+    fun onGoalSet(date: String, monthGoal: Int)
+
+    fun onGoalModify(date: String, monthGoal: Int)
 }

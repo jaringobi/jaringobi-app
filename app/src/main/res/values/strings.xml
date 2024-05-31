@@ -10,6 +10,7 @@
 
     <!-- 시작 페이지 -->
     <string name="text_select_goal">지출 목표 설정하기</string>
+    <string name="text_modify_goal">지출 목표 수정하기</string>
     <string name="text_start">바로 시작하기</string>
 
     <!-- 다이얼로그 -->
@@ -19,7 +20,8 @@
 
     <!-- 메인 페이지 -->
     <string name="text_month_goal">이번 달 지출 목표</string>
-    <string name="text_add_list">지출 내역 추가하기</string>
+    <string name="text_modify_month_goal">수정</string>
+    <string name="text_add_list">지출내역 추가하기</string>
     <string name="text_total_cost">총 지출</string>
     <string name="text_recent_cost">최근 지출내역</string>
     <string name="text_detail_cost">지출내역 더보기</string>
@@ -27,4 +29,5 @@
     <string name="text_total_cost_num">%d 원</string>
     <string name="text_compare_expense">지난 달보다 %s원 %s 썼어요</string>
     <string name="text_compare_expense_percent">%.1f%%</string>
+    <string name="upload_receipt">영수증 사진 업로드하기</string>
 </resources>

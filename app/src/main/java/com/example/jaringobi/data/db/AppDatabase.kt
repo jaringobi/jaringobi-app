@@ -5,24 +5,27 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [ExpenseEntity::class], version = 1, exportSchema = false)
+@Database(entities = [ExpenseEntity::class, MonthGoalEntity::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getExpenseDAO(): ExpenseDAO
+    abstract fun goalDAO(): GoalDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var instance: AppDatabase? = null
 
         private fun buildDatabase(context: Context): AppDatabase =
             Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
-                "expense-list"
-            ).build()
+                "expense-list",
+            )
+                .fallbackToDestructiveMigration()
+                .build()
 
         fun getInstance(context: Context): AppDatabase =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+            instance ?: synchronized(this) {
+                instance ?: buildDatabase(context).also { instance = it }
             }
     }
 }

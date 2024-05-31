@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.example.jaringobi.data.RecentCost
 import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ItemRecentCostBinding
 

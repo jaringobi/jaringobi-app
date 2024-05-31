@@ -8,14 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.example.jaringobi.databinding.DialogSelectGoalBinding
 import com.example.jaringobi.data.utils.GetDisplayUtil
+import com.example.jaringobi.databinding.DialogSelectGoalBinding
 
 @Suppress("DEPRECATION")
-class StartDialog : DialogFragment() {
+class StartDialog(date: String, isMonthGoal: Boolean) : DialogFragment() {
     var listener: OnGoalSetListener? = null
     private var mbinding: DialogSelectGoalBinding? = null
     private val binding get() = mbinding!!
+    private val isMonthGoal = isMonthGoal
+    private val date = date
 
     override fun onStart() {
         super.onStart()
@@ -40,10 +42,14 @@ class StartDialog : DialogFragment() {
         // 확인 버튼
         binding.btnSelectOk.setOnClickListener {
             val monthGoal = binding.etMonthGoal.text.toString()
-            if (monthGoal.isBlank()) {
+            if (monthGoal.isEmpty()) {
                 Toast.makeText(requireContext(), "목표 금액을 입력해 주세요", Toast.LENGTH_SHORT).show()
             } else {
-                listener?.onGoalSet(monthGoal)
+                if (isMonthGoal) {
+                    listener?.onGoalModify(date, monthGoal.toInt())
+                } else {
+                    listener?.onGoalSet(date, monthGoal.toInt())
+                }
             }
             dismiss()
         }

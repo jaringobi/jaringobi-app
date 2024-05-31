@@ -4,14 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "expenseList")
-data class ExpenseEntity(
+@Entity(tableName = "monthGoal")
+data class MonthGoalEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    val id : Long = 0L,
     @ColumnInfo
-    val date: String,
+    val month: String,
     @ColumnInfo
-    val store: String,
-    @ColumnInfo
-    val cost: String,
+    val goal: Int,
 )

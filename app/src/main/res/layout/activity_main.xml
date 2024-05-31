@@ -67,6 +67,20 @@
         app:layout_constraintStart_toStartOf="@id/iv_left"
         app:layout_constraintTop_toBottomOf="@id/tv_now_month" />
 
+    <Button
+        android:id="@+id/btn_modify_goal"
+        android:layout_width="72dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="12dp"
+        android:backgroundTint="@color/primary"
+        android:text="@string/text_modify_month_goal"
+        android:padding="0dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_month_goal"
+        app:layout_constraintStart_toEndOf="@id/tv_month_goal"
+        app:layout_constraintTop_toTopOf="@id/tv_month_goal" />
+
     <FrameLayout
         android:id="@+id/layout_with_data"
         android:layout_width="match_parent"
@@ -79,7 +93,7 @@
             android:id="@+id/tv_month_goal_data"
             style="@style/main_semibold_18"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_marginStart="14dp"
             android:background="@drawable/bg_month_goal"

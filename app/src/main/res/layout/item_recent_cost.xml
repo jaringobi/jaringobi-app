@@ -33,6 +33,4 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_recent_cost_store" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

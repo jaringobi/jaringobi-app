@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_medium"
-            android:textColor="@color/black"
+            android:textColor="@color/dark_grey"
             android:textSize="14sp" />
 
         <TextView
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/pretendard_medium"
-            android:textColor="@color/black"
+            android:textColor="@color/dark_grey"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -58,7 +58,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:gravity="center"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/dark_grey"
             android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>

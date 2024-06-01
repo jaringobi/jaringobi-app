@@ -12,11 +12,14 @@ import com.example.jaringobi.model.CalendarItem
 
 class CalendarAdapter(
     private val items: List<CalendarItem>,
-    private val onDateClick: (Int) -> Unit
+    private val onDateClick: (Int) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var selectedPosition = RecyclerView.NO_POSITION
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): RecyclerView.ViewHolder {
         return when (viewType) {
             R.layout.item_calendar_day -> {
                 val binding = ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,7 +33,10 @@ class CalendarAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+    ) {
         when (holder) {
             is CalendarViewHolder -> holder.bind(items[position] as? CalendarItem.Date, position)
             is WeekdayViewHolder -> holder.bind(items[position] as CalendarItem.Weekday)
@@ -49,7 +55,10 @@ class CalendarAdapter(
 
     inner class CalendarViewHolder(private val binding: ItemCalendarDayBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: CalendarItem.Date?, position: Int) {
+        fun bind(
+            item: CalendarItem.Date?,
+            position: Int,
+        ) {
             if (item != null) {
                 binding.calendarDayText.text = item.day.toString()
                 setWeekendColor(binding.calendarDayText, position)
@@ -66,20 +75,25 @@ class CalendarAdapter(
         }
 
         private fun setSelectionBackground(position: Int) {
-            binding.calendarDayText.background = if (selectedPosition == position) {
-                ContextCompat.getDrawable(binding.root.context, R.drawable.selected_date_background)
-            } else {
-                null
-            }
+            binding.calendarDayText.background =
+                if (selectedPosition == position) {
+                    ContextCompat.getDrawable(binding.root.context, R.drawable.selected_date_background)
+                } else {
+                    null
+                }
         }
 
-        private fun setWeekendColor(textView: TextView, position: Int) {
+        private fun setWeekendColor(
+            textView: TextView,
+            position: Int,
+        ) {
             val dayOfWeek = (position % 7) + 1
-            val colorResId = when (dayOfWeek) {
-                1 -> R.color.sunday_red // 일요일
-                7 -> R.color.saturday_blue // 토요일
-                else -> R.color.default_text_color
-            }
+            val colorResId =
+                when (dayOfWeek) {
+                    1 -> R.color.sunday_red // 일요일
+                    7 -> R.color.saturday_blue // 토요일
+                    else -> R.color.default_text_color
+                }
             textView.setTextColor(ContextCompat.getColor(textView.context, colorResId))
         }
 

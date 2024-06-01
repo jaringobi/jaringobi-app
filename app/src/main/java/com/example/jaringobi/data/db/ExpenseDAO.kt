@@ -16,7 +16,7 @@ interface ExpenseDAO {
     @Delete
     suspend fun deleteExpense(expense: ExpenseEntity) // 삭제 메소드 추가
 
-    @Query("DELETE FROM expenseList WHERE id = :expenseId")   // ID를 기반으로 특정 지출 내역 삭제
+    @Query("DELETE FROM expenseList WHERE id = :expenseId") // ID를 기반으로 특정 지출 내역 삭제
     fun deleteExpenseById(expenseId: Long)
 
     @Query("DELETE FROM expenseList")

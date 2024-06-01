@@ -92,9 +92,10 @@ class ExpenseListActivity : AppCompatActivity() {
     // 요일과 날짜 리스트 생성
     private fun getDatesWithWeekdays(): List<CalendarItem> {
         val weekdays = listOf("일", "월", "화", "수", "목", "금", "토")
-        val calendar = Calendar.getInstance().apply {
-            set(currentYear, currentMonth - 1, 1) // 월은 0부터 시작하므로 1을 빼줌
-        }
+        val calendar =
+            Calendar.getInstance().apply {
+                set(currentYear, currentMonth - 1, 1) // 월은 0부터 시작하므로 1을 빼줌
+            }
         val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) // 1은 일요일
 
@@ -150,9 +151,10 @@ class ExpenseListActivity : AppCompatActivity() {
             val expenses = expenseDAO.getExpensesByMonth(String.format(Locale.KOREA, "%02d", month))
             withContext(Dispatchers.Main) {
                 // ExpenseAdapter 호출 시 삭제 콜백 추가
-                binding.expensesList.adapter = ExpenseAdapter(expenses) { expense ->
-                    deleteExpense(expense)
-                }
+                binding.expensesList.adapter =
+                    ExpenseAdapter(expenses) { expense ->
+                        deleteExpense(expense)
+                    }
             }
         }
     }
@@ -164,9 +166,10 @@ class ExpenseListActivity : AppCompatActivity() {
             val expenses = expenseDAO.getExpensesByDate(formattedDate)
             withContext(Dispatchers.Main) {
                 // ExpenseAdapter 호출 시 삭제 콜백 추가
-                binding.expensesList.adapter = ExpenseAdapter(expenses) { expense ->
-                    deleteExpense(expense)
-                }
+                binding.expensesList.adapter =
+                    ExpenseAdapter(expenses) { expense ->
+                        deleteExpense(expense)
+                    }
             }
         }
     }

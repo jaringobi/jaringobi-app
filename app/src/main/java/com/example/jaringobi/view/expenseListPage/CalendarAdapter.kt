@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jaringobi.R
 import com.example.jaringobi.databinding.ItemCalendarDayBinding
+import com.example.jaringobi.model.CalendarItem
 
 /**
  * RecyclerView를 사용하여 날짜 목록을 표시
@@ -15,96 +16,89 @@ import com.example.jaringobi.databinding.ItemCalendarDayBinding
  * @param onDateClick 날짜 클릭 이벤트를 처리하는 콜백 함수
  */
 class CalendarAdapter(
-    private val dates: List<Int>,
+    private val items: List<CalendarItem>,
     private val onDateClick: (Int) -> Unit,
-) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val VIEW_TYPE_WEEKDAY = 0
+    private val VIEW_TYPE_DATE = 1
     private var selectedPosition = RecyclerView.NO_POSITION
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int,
-    ): CalendarViewHolder {
-        val binding = ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CalendarViewHolder(binding)
+    override fun getItemViewType(position: Int): Int {
+        return when (items[position]) {
+            is CalendarItem.Weekday -> VIEW_TYPE_WEEKDAY
+            is CalendarItem.Date -> VIEW_TYPE_DATE
+        }
     }
 
-    override fun onBindViewHolder(
-        holder: CalendarViewHolder,
-        position: Int,
-    ) {
-        holder.bind(dates[position], position)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_WEEKDAY -> WeekdayViewHolder(
+                ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
+            VIEW_TYPE_DATE -> DateViewHolder(
+                ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
+            else -> throw IllegalArgumentException("Unknown view type")
+        }
     }
 
-    override fun getItemCount() = dates.size
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is WeekdayViewHolder -> holder.bind((items[position] as CalendarItem.Weekday).name)
+            is DateViewHolder -> holder.bind((items[position] as CalendarItem.Date).day, position)
+        }
+    }
 
-    /**
-     * 달력 항목을 위한 ViewHolder
-     */
-    inner class CalendarViewHolder(private val binding: ItemCalendarDayBinding) :
+    override fun getItemCount() = items.size
+
+    inner class WeekdayViewHolder(private val binding: ItemCalendarDayBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        /**
-         * 날짜를 TextView에 바인딩하고 클릭 리스너를 설정
-         *
-         * @param date 바인딩할 날짜.
-         * @param position 어댑터에서 항목의 위치.
-         */
-        fun bind(
-            date: Int,
-            position: Int,
-        ) {
-            binding.calendarDayText.text = date.toString()
+
+        fun bind(weekday: String) {
+            binding.calendarDayText.text = weekday
+            binding.calendarDayText.setTextColor(
+                ContextCompat.getColor(binding.root.context, R.color.default_text_color)
+            )
+        }
+    }
+
+    inner class DateViewHolder(private val binding: ItemCalendarDayBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(day: Int, position: Int) {
+            binding.calendarDayText.text = day.toString()
             setWeekendColor(binding.calendarDayText, position)
             setSelectionBackground(position)
 
             binding.root.setOnClickListener {
-                onDateClick(date)
+                onDateClick(day)
                 updateSelection(position)
             }
         }
 
-        /**
-         * 선택된 항목의 배경을 업데이트
-         *
-         * @param position 어댑터에서 항목의 위치.
-         */
         private fun setSelectionBackground(position: Int) {
-            if (selectedPosition == position) {
-                binding.calendarDayText.background =
-                    ContextCompat.getDrawable(binding.root.context, R.drawable.selected_date_background)
+            binding.calendarDayText.background = if (selectedPosition == position) {
+                ContextCompat.getDrawable(binding.root.context, R.drawable.selected_date_background)
             } else {
-                binding.calendarDayText.background = null
+                null
             }
         }
 
-        /**
-         * 주말의 텍스트 색상을 설정
-         *
-         * @param textView 색상을 설정할 TextView.
-         * @param position 어댑터에서 항목의 위치.
-         */
-        private fun setWeekendColor(
-            textView: TextView,
-            position: Int,
-        ) {
-            val dayOfWeek = (position + 1) % 7
-            val colorResId =
-                when (dayOfWeek) {
-                    0 -> R.color.sunday_red
-                    6 -> R.color.saturday_blue
-                    else -> R.color.default_text_color
-                }
+        private fun setWeekendColor(textView: TextView, position: Int) {
+            val dayOfWeek = (position % 7)
+            val colorResId = when (dayOfWeek) {
+                0 -> R.color.sunday_red // 일요일
+                6 -> R.color.saturday_blue // 토요일
+                else -> R.color.default_text_color
+            }
             textView.setTextColor(ContextCompat.getColor(textView.context, colorResId))
         }
 
-        /**
-         * 선택된 위치를 업데이트하고 어댑터에 알림
-         *
-         * @param newPosition 새로운 선택된 위치.
-         */
         private fun updateSelection(newPosition: Int) {
-            notifyItemChanged(selectedPosition) // 이전 선택된 항목 갱신
+            notifyItemChanged(selectedPosition)
             selectedPosition = newPosition
-            notifyItemChanged(selectedPosition) // 현재 선택된 항목 갱신
+            notifyItemChanged(selectedPosition)
         }
     }
 }

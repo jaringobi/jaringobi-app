@@ -4,10 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import com.example.jaringobi.R
-import com.example.jaringobi.data.db.AppDatabase
-import com.example.jaringobi.data.db.MonthGoalEntity
 import com.example.jaringobi.databinding.ActivityStartBinding
 import com.example.jaringobi.view.custom.OnGoalSetListener
 import com.example.jaringobi.view.custom.StartDialog

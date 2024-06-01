@@ -138,42 +138,47 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             withContext(Dispatchers.IO) {
                 val expenseDAO = db.getExpenseDAO()
                 val monthString = if (month < 10) "0$month" else month.toString()
-                val expenseList = withContext(Dispatchers.IO) {
-                    expenseDAO.getExpensesByMonth(monthString)
-                }
+                val expenseList =
+                    withContext(Dispatchers.IO) {
+                        expenseDAO.getExpensesByMonth(monthString)
+                    }
 
                 val prevMonth = month - 1
                 val prevMonthString = if (prevMonth < 10) "0$prevMonth" else prevMonth.toString()
-                val prevExpenseList = withContext(Dispatchers.IO) {
-                    expenseDAO.getExpensesByMonth(prevMonthString)
-                }
+                val prevExpenseList =
+                    withContext(Dispatchers.IO) {
+                        expenseDAO.getExpensesByMonth(prevMonthString)
+                    }
 
                 // 일별로 내림차순 정렬
                 val sortedExpenseList =
                     expenseList.sortedByDescending { it.date.substring(6, 8).toInt() }
 
                 // 요일 추가
-                val formattedExpenseList = sortedExpenseList.map { expense ->
-                    val date =
-                        LocalDate.parse(expense.date, DateTimeFormatter.ofPattern("yy-MM-dd"))
-                    val dayOfWeek = date.dayOfWeek
-                    val dayOfWeekKorean = when (dayOfWeek) {
-                        DayOfWeek.MONDAY -> "월"
-                        DayOfWeek.TUESDAY -> "화"
-                        DayOfWeek.WEDNESDAY -> "수"
-                        DayOfWeek.THURSDAY -> "목"
-                        DayOfWeek.FRIDAY -> "금"
-                        DayOfWeek.SATURDAY -> "토"
-                        DayOfWeek.SUNDAY -> "일"
+                val formattedExpenseList =
+                    sortedExpenseList.map { expense ->
+                        val date =
+                            LocalDate.parse(expense.date, DateTimeFormatter.ofPattern("yy-MM-dd"))
+                        val dayOfWeek = date.dayOfWeek
+                        val dayOfWeekKorean =
+                            when (dayOfWeek) {
+                                DayOfWeek.MONDAY -> "월"
+                                DayOfWeek.TUESDAY -> "화"
+                                DayOfWeek.WEDNESDAY -> "수"
+                                DayOfWeek.THURSDAY -> "목"
+                                DayOfWeek.FRIDAY -> "금"
+                                DayOfWeek.SATURDAY -> "토"
+                                DayOfWeek.SUNDAY -> "일"
+                            }
+                        val formattedDate = "${expense.date} ($dayOfWeekKorean)"
+                        expense.copy(date = formattedDate)
                     }
-                    val formattedDate = "${expense.date} ($dayOfWeekKorean)"
-                    expense.copy(date = formattedDate)
-                }
 
                 // 총 지출 계산
-                val totalCost = formattedExpenseList.sumOf {
-                    it.cost.replace(",", "").replace(" 원", "").toInt()
-                }
+                val totalCost =
+                    formattedExpenseList.sumOf {
+                        it.cost.replace(",", "").replace(" 원", "").toInt()
+                    }
                 // 이전 달 지출 계산
                 val prevTotalCost =
                     prevExpenseList.sumOf { it.cost.replace(",", "").replace(" 원", "").toInt() }
@@ -188,18 +193,20 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
 
                     if (prevTotalCost > totalCost) {
                         costDifference = prevTotalCost - totalCost
-                        binding.tvCompareCost.text = getString(
-                            R.string.text_compare_expense,
-                            costDifference.toString(), "덜"
-                        )
+                        binding.tvCompareCost.text =
+                            getString(
+                                R.string.text_compare_expense,
+                                costDifference.toString(), "덜",
+                            )
                         binding.ivUpdown.setImageResource(R.drawable.ic_down)
                     } else if (prevTotalCost < totalCost) {
                         costDifference = totalCost - prevTotalCost
-                        binding.tvCompareCost.text = getString(
-                            R.string.text_compare_expense,
-                            costDifference.toString(),
-                            "더"
-                        )
+                        binding.tvCompareCost.text =
+                            getString(
+                                R.string.text_compare_expense,
+                                costDifference.toString(),
+                                "더",
+                            )
                         binding.ivUpdown.setImageResource(R.drawable.ic_up)
                     } else {
                         binding.tvCompareCost.text = getString(

@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.jaringobi.R
 import com.example.jaringobi.data.db.AppDatabase
 import com.example.jaringobi.data.db.ExpenseDAO
 import com.example.jaringobi.databinding.ActivityExpensesListBinding
+import com.example.jaringobi.model.CalendarItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -63,27 +65,31 @@ class ExpenseListActivity : AppCompatActivity() {
             changeMonth(1)
         }
 
-        // 현재 월의 날짜 리스트 생성
-        val dates = getDatesForCurrentMonth()
+        // 요일과 날짜 리스트 생성
+        val datesWithWeekdays = getDatesWithWeekdays()
         // 캘린더 그리드 레이아웃 설정
         binding.calendarGrid.layoutManager = GridLayoutManager(this, 7)
         // 캘린더 어댑터 설정
-        binding.calendarGrid.adapter =
-            CalendarAdapter(dates) { day ->
-                val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
-                loadExpensesByDate(selectedDate)
-            }
+        binding.calendarGrid.adapter = CalendarAdapter(datesWithWeekdays) { day ->
+            val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
+            loadExpensesByDate(selectedDate)
+        }
+
+        // PagerSnapHelper 설정
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.calendarGrid)
+    }
+
+    private fun getDatesWithWeekdays(): List<CalendarItem> {
+        val weekdays = listOf("일", "월", "화", "수", "목", "금", "토")
+        val yearMonth = YearMonth.of(LocalDate.now().year, currentMonth)
+        val dates = (1..yearMonth.lengthOfMonth()).map { it.toString() }
+        return weekdays.map { CalendarItem.Weekday(it) } + dates.map { CalendarItem.Date(it.toInt()) }
     }
 
     private fun updateMonthDisplay() {
         // 현재 월을 텍스트 뷰에 표시
         binding.currentMonth.text = getString(R.string.month_display, currentMonth)
-    }
-
-    private fun getDatesForCurrentMonth(): List<Int> {
-        // 현재 월의 날짜 리스트 반환
-        val yearMonth = YearMonth.of(LocalDate.now().year, currentMonth)
-        return (1..yearMonth.lengthOfMonth()).toList()
     }
 
     private fun changeMonth(delta: Int) {
@@ -96,7 +102,11 @@ class ExpenseListActivity : AppCompatActivity() {
         }
         // 월 표시 업데이트 및 지출 목록 로드
         updateMonthDisplay()
-        loadExpensesByMonth(currentMonth)
+        val datesWithWeekdays = getDatesWithWeekdays()
+        binding.calendarGrid.adapter = CalendarAdapter(datesWithWeekdays) { day ->
+            val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
+            loadExpensesByDate(selectedDate)
+        }
     }
 
     private fun loadExpensesByMonth(month: Int) {

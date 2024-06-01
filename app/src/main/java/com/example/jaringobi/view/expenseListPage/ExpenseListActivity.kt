@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.jaringobi.R
 import com.example.jaringobi.data.db.AppDatabase
 import com.example.jaringobi.data.db.ExpenseDAO
+import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ActivityExpensesListBinding
 import com.example.jaringobi.model.CalendarItem
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +26,7 @@ class ExpenseListActivity : AppCompatActivity() {
     private lateinit var expenseDAO: ExpenseDAO
     private var currentYear = 2024
     private var currentMonth = 6 // 6월로 설정
+    private var selectedDate: LocalDate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,7 +149,10 @@ class ExpenseListActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             val expenses = expenseDAO.getExpensesByMonth(String.format(Locale.KOREA, "%02d", month))
             withContext(Dispatchers.Main) {
-                binding.expensesList.adapter = ExpenseAdapter(expenses)
+                // ExpenseAdapter 호출 시 삭제 콜백 추가
+                binding.expensesList.adapter = ExpenseAdapter(expenses) { expense ->
+                    deleteExpense(expense)
+                }
             }
         }
     }
@@ -158,13 +163,23 @@ class ExpenseListActivity : AppCompatActivity() {
             val formattedDate = date.format(DateTimeFormatter.ofPattern("yy-MM-dd"))
             val expenses = expenseDAO.getExpensesByDate(formattedDate)
             withContext(Dispatchers.Main) {
-                binding.expensesList.adapter = ExpenseAdapter(expenses)
+                // ExpenseAdapter 호출 시 삭제 콜백 추가
+                binding.expensesList.adapter = ExpenseAdapter(expenses) { expense ->
+                    deleteExpense(expense)
+                }
             }
         }
     }
 
+    private fun deleteExpense(expense: ExpenseEntity) {
+        // 지출 항목 삭제
+        lifecycleScope.launch(Dispatchers.IO) {
+            expenseDAO.deleteExpenseById(expense.id) // 개별 항목 삭제
+        }
+    }
+
     private fun clearExpensesList() {
-        // 지출 목록 초기화
-        binding.expensesList.adapter = ExpenseAdapter(emptyList())
+        // 지출 목록 초기화 시 삭제 콜백 제공
+        binding.expensesList.adapter = ExpenseAdapter(emptyList()) { }
     }
 }

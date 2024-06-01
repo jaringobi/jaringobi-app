@@ -20,12 +20,12 @@ import com.example.jaringobi.view.expenseListPage.ExpenseListActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.DecimalFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
-@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(), OnGoalSetListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: AppDatabase
@@ -42,10 +42,12 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         // 현재 년도와 월을 가져옴
         val now = Calendar.getInstance()
         var nowYear = now.get(Calendar.YEAR)
-        var nowMonth = now.get(Calendar.MONTH) + 2
+        var nowMonth = now.get(Calendar.MONTH) + 1
         var monthString = if (nowMonth < 10) "0$nowMonth" else nowMonth.toString()
         var dateString = "$nowYear-$monthString"
         checkMonthGoal(dateString)
+
+        binding.tvNowMonth.text = getString(R.string.text_now_month, nowMonth.toString())
 
         binding.ivLeft.setOnClickListener {
             nowMonth -= 1
@@ -112,7 +114,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                     ExpenseEntity(date = "24-05-20", store = "이마트 에브리데이", cost = "10,000 원"),
                 )
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-05-25", store = "메머드커피", cost = "10,000 원"),
+                    ExpenseEntity(date = "24-05-25", store = "매머드커피", cost = "10,000 원"),
                 )
                 expenseDAO.insertExpense(
                     ExpenseEntity(date = "24-05-24", store = "메가커피", cost = "2,000 원"),
@@ -170,7 +172,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                                 DayOfWeek.SATURDAY -> "토"
                                 DayOfWeek.SUNDAY -> "일"
                             }
-                        val formattedDate = "${expense.date} ($dayOfWeekKorean)"
+                        val formattedDate = "${expense.date}($dayOfWeekKorean)"
                         expense.copy(date = formattedDate)
                     }
 
@@ -186,25 +188,28 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                 withContext(Dispatchers.Main) {
                     val adapter = MainLvAdapter(this@MainActivity, formattedExpenseList)
                     binding.lvRecentCost.adapter = adapter
+                    val decimalFormat = DecimalFormat("#,###")
 
                     // 총 지출 표시
-                    binding.tvTotalCost.text = getString(R.string.text_total_cost_num, totalCost)
+                    binding.tvTotalCost.text = getString(R.string.text_total_cost_num, decimalFormat.format(totalCost))
                     var costDifference = 0
 
                     if (prevTotalCost > totalCost) {
                         costDifference = prevTotalCost - totalCost
+
                         binding.tvCompareCost.text =
                             getString(
                                 R.string.text_compare_expense,
-                                costDifference.toString(), "덜",
+                                decimalFormat.format(costDifference), "덜",
                             )
                         binding.ivUpdown.setImageResource(R.drawable.ic_down)
                     } else if (prevTotalCost < totalCost) {
                         costDifference = totalCost - prevTotalCost
+
                         binding.tvCompareCost.text =
                             getString(
                                 R.string.text_compare_expense,
-                                costDifference.toString(),
+                                decimalFormat.format(costDifference),
                                 "더",
                             )
                         binding.ivUpdown.setImageResource(R.drawable.ic_up)
@@ -212,7 +217,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                         binding.tvCompareCost.text =
                             getString(
                                 R.string.text_compare_expense,
-                                costDifference.toString(),
+                                decimalFormat.format(costDifference),
                                 "더",
                             )
                         binding.ivUpdown.setImageResource(R.drawable.ic_same)

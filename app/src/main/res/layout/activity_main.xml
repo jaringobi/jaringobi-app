@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
 
     <androidx.appcompat.widget.Toolbar
@@ -41,7 +41,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="5월"
         app:layout_constraintEnd_toStartOf="@id/iv_right"
         app:layout_constraintStart_toEndOf="@id/iv_left"
         app:layout_constraintTop_toTopOf="@id/iv_left" />
@@ -73,8 +72,8 @@
         android:layout_height="28dp"
         android:layout_marginStart="12dp"
         android:backgroundTint="@color/primary"
-        android:text="@string/text_modify_month_goal"
         android:padding="0dp"
+        android:text="@string/text_modify_month_goal"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_month_goal"
@@ -166,9 +165,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        tools:text="@string/text_total_cost_num"
         app:layout_constraintStart_toStartOf="@id/tv_total_cost_view"
-        app:layout_constraintTop_toBottomOf="@id/tv_total_cost_view" />
+        app:layout_constraintTop_toBottomOf="@id/tv_total_cost_view"
+        tools:text="@string/text_total_cost_num" />
 
     <ImageView
         android:id="@+id/iv_updown"
@@ -186,10 +185,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        tools:text="@string/text_compare_expense_percent"
         app:layout_constraintBottom_toBottomOf="@id/tv_total_cost"
         app:layout_constraintStart_toEndOf="@id/iv_updown"
-        app:layout_constraintTop_toTopOf="@id/tv_total_cost" />
+        app:layout_constraintTop_toTopOf="@id/tv_total_cost"
+        tools:text="@string/text_compare_expense_percent" />
 
     <TextView
         android:id="@+id/tv_compare_cost"
@@ -197,10 +196,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        tools:text="@string/text_compare_expense"
         android:textColor="@color/dark_grey"
         app:layout_constraintStart_toStartOf="@id/tv_total_cost"
-        app:layout_constraintTop_toBottomOf="@id/tv_total_cost" />
+        app:layout_constraintTop_toBottomOf="@id/tv_total_cost"
+        tools:text="@string/text_compare_expense" />
 
     <TextView
         android:id="@+id/tv_recent_cost"

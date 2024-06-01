@@ -1,7 +1,10 @@
 package com.example.jaringobi.view.addExpensePage
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -10,20 +13,30 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.jaringobi.BuildConfig
 import com.example.jaringobi.common.ImageData
+import com.example.jaringobi.common.OcrResponse
 import com.example.jaringobi.common.RequestBody
 import com.example.jaringobi.common.RetrofitClient.ocrService
+import com.example.jaringobi.data.db.AppDatabase
+import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.FragmentReceiptBinding
-import com.google.gson.JsonObject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DecimalFormat
 
 class ReceiptFragment : Fragment() {
     private lateinit var binding: FragmentReceiptBinding
+
+    private lateinit var db: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,24 +90,68 @@ class ReceiptFragment : Fragment() {
             )
 
         Log.d("REQUEST_BODY", requestBody.toString())
+
+        val dialog =
+            Dialog(requireContext()).apply {
+                window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setContentView(ProgressBar(requireContext()))
+                setCanceledOnTouchOutside(false)
+                show()
+            }
+
         val call = ocrService.getOcr(BuildConfig.OCR_KEY, requestBody)
         call.enqueue(
-            object : Callback<JsonObject> {
+            object : Callback<OcrResponse> {
                 override fun onResponse(
-                    call: Call<JsonObject>,
-                    response: Response<JsonObject>,
+                    call: Call<OcrResponse>,
+                    response: Response<OcrResponse>,
                 ) {
+                    dialog.dismiss()
                     if (response.isSuccessful) {
-                        val ocrResponse = response.body()
-                        Log.d("SUCCESS", response.body().toString())
+                        db = AppDatabase.getInstance(requireContext())
+
+                        val ocrResponse = response.body()!!
+                        Log.d("SUCCESS", ocrResponse.toString())
+
+                        val year = ocrResponse.images[0].receipt.result.paymentInfo.date.formatted.year.takeLast(2)
+                        val month = ocrResponse.images[0].receipt.result.paymentInfo.date.formatted.month
+                        val date = ocrResponse.images[0].receipt.result.paymentInfo.date.formatted.day
+                        val store = ocrResponse.images[0].receipt.result.storeInfo.name.formatted.value
+                        val cost = ocrResponse.images[0].receipt.result.totalPrice.price.formatted.value
+
+                        val decimalFormat = DecimalFormat("#,###")
+                        val formattedCost = decimalFormat.format(cost.toInt())
+
+                        val entity =
+                            ExpenseEntity(
+                                date = "$year-$month-$date",
+                                store = store,
+                                cost = "$formattedCost 원",
+                            )
+
+                        // 코루틴
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                val expenseDAO = db.getExpenseDAO()
+                                Log.d("INSERT", entity.toString())
+                                expenseDAO.insertExpense(entity)
+                            } catch (exception: Exception) {
+                                Log.e("DATABASE_ERROR", exception.toString())
+                                Toast.makeText(requireContext(), "오류가 발생했습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        Toast.makeText(requireContext(), "지출내역이 추가되었습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(
-                    call: Call<JsonObject>,
+                    call: Call<OcrResponse>,
                     throwable: Throwable,
                 ) {
+                    dialog.dismiss()
                     Log.d("FAIL", throwable.toString())
+                    Toast.makeText(requireContext(), "요청에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
                 }
             },
         )

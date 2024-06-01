@@ -1,6 +1,7 @@
 package com.example.jaringobi.data.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
@@ -11,6 +12,12 @@ interface ExpenseDAO {
 
     @Insert
     fun insertExpense(expenses: ExpenseEntity) // 지출 내역 추가
+
+    @Delete
+    suspend fun deleteExpense(expense: ExpenseEntity) // 삭제 메소드 추가
+
+    @Query("DELETE FROM expenseList WHERE id = :expenseId")   // ID를 기반으로 특정 지출 내역 삭제
+    fun deleteExpenseById(expenseId: Long)
 
     @Query("DELETE FROM expenseList")
     fun deleteAllExpenses() // expenseList 모든 행 삭제

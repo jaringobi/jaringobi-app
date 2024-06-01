@@ -12,7 +12,7 @@ import com.example.jaringobi.model.CalendarItem
 /**
  * RecyclerView를 사용하여 날짜 목록을 표시
  *
- * @param dates 표시할 날짜 목록.
+ * @param items
  * @param onDateClick 날짜 클릭 이벤트를 처리하는 콜백 함수
  */
 class CalendarAdapter(

@@ -74,8 +74,8 @@
 
     <Button
         android:id="@+id/btn_modify_goal"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="32dp"
         android:layout_marginStart="16dp"
         android:backgroundTint="@color/primary"
         android:fontFamily="@font/pretendard_semibold"
@@ -106,8 +106,8 @@
             android:background="@drawable/bg_month_goal"
             android:backgroundTint="@color/light_grey"
             android:gravity="center"
-            android:paddingHorizontal="144dp"
-            android:paddingVertical="14.625dp"
+            android:paddingHorizontal="132dp"
+            android:paddingVertical="14dp"
             android:textColor="@color/black" />
 
         <TextView
@@ -135,7 +135,7 @@
             android:layout_gravity="center"
             android:background="@drawable/round_rectangle"
             android:backgroundTint="@color/light_grey"
-            android:paddingVertical="16dp"
+            android:paddingVertical="14dp"
             android:text="@string/text_select_goal"
             android:textColor="@color/black" />
     </FrameLayout>

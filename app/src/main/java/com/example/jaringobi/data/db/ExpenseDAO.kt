@@ -13,7 +13,7 @@ interface ExpenseDAO {
     fun insertExpense(expenses: ExpenseEntity) // 지출 내역 추가
 
     @Query("DELETE FROM expenseList")
-    fun deleteAllExpenses() // expenseList의 모든 행 삭제
+    fun deleteAllExpenses() // expenseList 모든 행 삭제
 
     @Query("SELECT * FROM expenseList WHERE SUBSTR(date, 4, 2) = :month")
     fun getExpensesByMonth(month: String): List<ExpenseEntity> // 특정 월의 데이터 조회

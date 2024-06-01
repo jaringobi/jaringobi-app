@@ -25,8 +25,8 @@
     <string name="text_total_cost">총 지출</string>
     <string name="text_recent_cost">최근 지출내역</string>
     <string name="text_detail_cost">지출내역 더보기</string>
-    <string name="text_now_month">%s 월</string>
-    <string name="text_total_cost_num">%d 원</string>
+    <string name="text_now_month">%s월</string>
+    <string name="text_total_cost_num">%s원</string>
     <string name="text_compare_expense">지난 달보다 %s원 %s 썼어요</string>
     <string name="text_compare_expense_percent">%.1f%%</string>
     <string name="upload_receipt">영수증 사진 업로드하기</string>

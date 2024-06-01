@@ -35,11 +35,11 @@
             style="@style/EditTextLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/input_place"
+            android:labelFor="@+id/input_store"
             android:text="@string/place" />
 
         <EditText
-            android:id="@+id/input_place"
+            android:id="@+id/input_store"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/grey"
@@ -60,7 +60,7 @@
             style="@style/EditTextLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/input_amount"
+            android:labelFor="@+id/input_cost"
             android:text="@string/amount" />
 
         <LinearLayout
@@ -69,7 +69,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/input_amount"
+                android:id="@+id/input_cost"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
@@ -93,6 +93,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_button"
         style="@style/main_semibold_18"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

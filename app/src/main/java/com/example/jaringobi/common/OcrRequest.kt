@@ -1,6 +1,5 @@
 package com.example.jaringobi.common
 
-import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Header
@@ -12,7 +11,7 @@ interface OcrRequest {
     fun getOcr(
         @Header("X-OCR-SECRET") token: String,
         @Body body: RequestBody,
-    ): Call<JsonObject>
+    ): Call<OcrResponse>
 }
 
 data class RequestBody(

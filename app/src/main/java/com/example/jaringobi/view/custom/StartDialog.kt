@@ -12,18 +12,19 @@ import com.example.jaringobi.data.utils.GetDisplayUtil
 import com.example.jaringobi.databinding.DialogSelectGoalBinding
 
 @Suppress("DEPRECATION")
-class StartDialog(date: String, isMonthGoal: Boolean) : DialogFragment() {
+class StartDialog(
+    val date: String,
+    private val isMonthGoal: Boolean,
+) : DialogFragment() {
     var listener: OnGoalSetListener? = null
     private var mbinding: DialogSelectGoalBinding? = null
     private val binding get() = mbinding!!
-    private val isMonthGoal = isMonthGoal
-    private val date = date
 
     override fun onStart() {
         super.onStart()
 
         val size = GetDisplayUtil.getSize(requireContext())
-        val width = (size.first * 0.8).toInt()
+        val width = (size.first * 0.85).toInt()
 
         dialog?.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -43,7 +44,7 @@ class StartDialog(date: String, isMonthGoal: Boolean) : DialogFragment() {
         binding.btnSelectOk.setOnClickListener {
             val monthGoal = binding.etMonthGoal.text.toString()
             if (monthGoal.isEmpty()) {
-                Toast.makeText(requireContext(), "목표 금액을 입력해 주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "목표 금액을 입력해 주세요.", Toast.LENGTH_SHORT).show()
             } else {
                 if (isMonthGoal) {
                     listener?.onGoalModify(date, monthGoal.toInt())

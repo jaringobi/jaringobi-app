@@ -4,14 +4,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.lifecycleScope
+import com.example.jaringobi.R
 import com.example.jaringobi.data.db.AppDatabase
 import com.example.jaringobi.data.db.ExpenseDAO
 import com.example.jaringobi.databinding.ActivityExpensesListBinding
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 class ExpenseListActivity : AppCompatActivity() {
@@ -22,13 +24,18 @@ class ExpenseListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // 뷰 바인딩 초기화
         binding = ActivityExpensesListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 데이터베이스 초기화
         expenseDAO = AppDatabase.getInstance(this).getExpenseDAO()
 
+        // 리사이클러뷰 설정
         setupRecyclerView()
+        // 캘린더 설정
         setupCalendar()
+        // 지출 목록 초기화
         clearExpensesList()
     }
 
@@ -37,32 +44,24 @@ class ExpenseListActivity : AppCompatActivity() {
     }
 
     private fun setupCalendar() {
-        // 현재 월 설정
-        binding.currentMonth.text = "${currentMonth}월"
+        // 현재 월 표시
+        updateMonthDisplay()
 
-        // 이전 달로 이동
+        // 이전 달 버튼 클릭 리스너 설정
         binding.prevMonth.setOnClickListener {
-            currentMonth -= 1
-            if (currentMonth < 1) {
-                currentMonth = 12
-            }
-            binding.currentMonth.text = "${currentMonth}월"
-            loadExpensesByMonth(currentMonth)
+            changeMonth(-1)
         }
 
-        // 다음 달로 이동
+        // 다음 달 버튼 클릭 리스너 설정
         binding.nextMonth.setOnClickListener {
-            currentMonth += 1
-            if (currentMonth > 12) {
-                currentMonth = 1
-            }
-            binding.currentMonth.text = "${currentMonth}월"
-            loadExpensesByMonth(currentMonth)
+            changeMonth(1)
         }
 
-        // RecyclerView를 사용한 캘린더 설정
-        val dates = (1..31).toList() // 예시로 1일부터 31일까지 날짜 리스트 생성
-        binding.calendarGrid.layoutManager = GridLayoutManager(this, 7) // 7열 그리드 레이아웃
+        // 현재 월의 날짜 리스트 생성
+        val dates = getDatesForCurrentMonth()
+        // 캘린더 그리드 레이아웃 설정
+        binding.calendarGrid.layoutManager = GridLayoutManager(this, 7)
+        // 캘린더 어댑터 설정
         binding.calendarGrid.adapter =
             CalendarAdapter(dates) { day ->
                 val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
@@ -70,8 +69,33 @@ class ExpenseListActivity : AppCompatActivity() {
             }
     }
 
+    private fun updateMonthDisplay() {
+        // 현재 월을 텍스트 뷰에 표시
+        binding.currentMonth.text = getString(R.string.month_display, currentMonth)
+    }
+
+    private fun getDatesForCurrentMonth(): List<Int> {
+        // 현재 월의 날짜 리스트 반환
+        val yearMonth = YearMonth.of(LocalDate.now().year, currentMonth)
+        return (1..yearMonth.lengthOfMonth()).toList()
+    }
+
+    private fun changeMonth(delta: Int) {
+        // 월 변경
+        currentMonth += delta
+        if (currentMonth < 1) {
+            currentMonth = 12
+        } else if (currentMonth > 12) {
+            currentMonth = 1
+        }
+        // 월 표시 업데이트 및 지출 목록 로드
+        updateMonthDisplay()
+        loadExpensesByMonth(currentMonth)
+    }
+
     private fun loadExpensesByMonth(month: Int) {
-        GlobalScope.launch(Dispatchers.IO) {
+        // 지정된 월의 지출 목록 로드
+        lifecycleScope.launch(Dispatchers.IO) {
             val expenses = expenseDAO.getExpensesByMonth(String.format("%02d", month))
             withContext(Dispatchers.Main) {
                 binding.expensesList.adapter = ExpenseAdapter(expenses)
@@ -80,7 +104,8 @@ class ExpenseListActivity : AppCompatActivity() {
     }
 
     private fun loadExpensesByDate(date: LocalDate) {
-        GlobalScope.launch(Dispatchers.IO) {
+        // 지정된 날짜의 지출 목록 로드
+        lifecycleScope.launch(Dispatchers.IO) {
             val formattedDate = date.format(DateTimeFormatter.ofPattern("yy-MM-dd"))
             val expenses = expenseDAO.getExpensesByDate(formattedDate)
             withContext(Dispatchers.Main) {
@@ -90,6 +115,7 @@ class ExpenseListActivity : AppCompatActivity() {
     }
 
     private fun clearExpensesList() {
+        // 지출 목록 초기화
         binding.expensesList.adapter = ExpenseAdapter(emptyList())
     }
 }

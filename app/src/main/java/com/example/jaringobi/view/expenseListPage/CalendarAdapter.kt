@@ -19,9 +19,6 @@ class CalendarAdapter(
     private val items: List<CalendarItem>,
     private val onDateClick: (Int) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private val VIEW_TYPE_WEEKDAY = 0
-    private val VIEW_TYPE_DATE = 1
     private var selectedPosition = RecyclerView.NO_POSITION
 
     override fun getItemViewType(position: Int): Int {
@@ -31,19 +28,29 @@ class CalendarAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): RecyclerView.ViewHolder {
         return when (viewType) {
-            VIEW_TYPE_WEEKDAY -> WeekdayViewHolder(
-                ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
-            VIEW_TYPE_DATE -> DateViewHolder(
-                ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
+            VIEW_TYPE_WEEKDAY ->
+                WeekdayViewHolder(
+                    ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                )
+
+            VIEW_TYPE_DATE ->
+                DateViewHolder(
+                    ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                )
+
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+    ) {
         when (holder) {
             is WeekdayViewHolder -> holder.bind((items[position] as CalendarItem.Weekday).name)
             is DateViewHolder -> holder.bind((items[position] as CalendarItem.Date).day, position)
@@ -54,19 +61,20 @@ class CalendarAdapter(
 
     inner class WeekdayViewHolder(private val binding: ItemCalendarDayBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(weekday: String) {
             binding.calendarDayText.text = weekday
             binding.calendarDayText.setTextColor(
-                ContextCompat.getColor(binding.root.context, R.color.default_text_color)
+                ContextCompat.getColor(binding.root.context, R.color.default_text_color),
             )
         }
     }
 
     inner class DateViewHolder(private val binding: ItemCalendarDayBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(day: Int, position: Int) {
+        fun bind(
+            day: Int,
+            position: Int,
+        ) {
             binding.calendarDayText.text = day.toString()
             setWeekendColor(binding.calendarDayText, position)
             setSelectionBackground(position)
@@ -78,20 +86,25 @@ class CalendarAdapter(
         }
 
         private fun setSelectionBackground(position: Int) {
-            binding.calendarDayText.background = if (selectedPosition == position) {
-                ContextCompat.getDrawable(binding.root.context, R.drawable.selected_date_background)
-            } else {
-                null
-            }
+            binding.calendarDayText.background =
+                if (selectedPosition == position) {
+                    ContextCompat.getDrawable(binding.root.context, R.drawable.selected_date_background)
+                } else {
+                    null
+                }
         }
 
-        private fun setWeekendColor(textView: TextView, position: Int) {
+        private fun setWeekendColor(
+            textView: TextView,
+            position: Int,
+        ) {
             val dayOfWeek = (position % 7)
-            val colorResId = when (dayOfWeek) {
-                0 -> R.color.sunday_red // 일요일
-                6 -> R.color.saturday_blue // 토요일
-                else -> R.color.default_text_color
-            }
+            val colorResId =
+                when (dayOfWeek) {
+                    0 -> R.color.sunday_red // 일요일
+                    6 -> R.color.saturday_blue // 토요일
+                    else -> R.color.default_text_color
+                }
             textView.setTextColor(ContextCompat.getColor(textView.context, colorResId))
         }
 
@@ -100,5 +113,10 @@ class CalendarAdapter(
             selectedPosition = newPosition
             notifyItemChanged(selectedPosition)
         }
+    }
+
+    companion object {
+        private const val VIEW_TYPE_WEEKDAY = 0
+        private const val VIEW_TYPE_DATE = 1
     }
 }

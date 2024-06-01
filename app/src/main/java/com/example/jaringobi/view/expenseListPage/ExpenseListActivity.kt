@@ -70,10 +70,11 @@ class ExpenseListActivity : AppCompatActivity() {
         // 캘린더 그리드 레이아웃 설정
         binding.calendarGrid.layoutManager = GridLayoutManager(this, 7)
         // 캘린더 어댑터 설정
-        binding.calendarGrid.adapter = CalendarAdapter(datesWithWeekdays) { day ->
-            val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
-            loadExpensesByDate(selectedDate)
-        }
+        binding.calendarGrid.adapter =
+            CalendarAdapter(datesWithWeekdays) { day ->
+                val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
+                loadExpensesByDate(selectedDate)
+            }
 
         // PagerSnapHelper 설정
         val snapHelper = PagerSnapHelper()
@@ -103,10 +104,11 @@ class ExpenseListActivity : AppCompatActivity() {
         // 월 표시 업데이트 및 지출 목록 로드
         updateMonthDisplay()
         val datesWithWeekdays = getDatesWithWeekdays()
-        binding.calendarGrid.adapter = CalendarAdapter(datesWithWeekdays) { day ->
-            val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
-            loadExpensesByDate(selectedDate)
-        }
+        binding.calendarGrid.adapter =
+            CalendarAdapter(datesWithWeekdays) { day ->
+                val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
+                loadExpensesByDate(selectedDate)
+            }
     }
 
     private fun loadExpensesByMonth(month: Int) {

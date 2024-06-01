@@ -1,14 +1,12 @@
 package com.example.jaringobi.view.expenseListPage
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.jaringobi.R
-import com.example.jaringobi.databinding.ActivityExpensesListBinding
 import com.example.jaringobi.data.db.AppDatabase
 import com.example.jaringobi.data.db.ExpenseDAO
+import com.example.jaringobi.databinding.ActivityExpensesListBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,7 +15,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class ExpenseListActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityExpensesListBinding
     private lateinit var expenseDAO: ExpenseDAO
     private var currentMonth = LocalDate.now().monthValue
@@ -66,10 +63,11 @@ class ExpenseListActivity : AppCompatActivity() {
         // RecyclerView를 사용한 캘린더 설정
         val dates = (1..31).toList() // 예시로 1일부터 31일까지 날짜 리스트 생성
         binding.calendarGrid.layoutManager = GridLayoutManager(this, 7) // 7열 그리드 레이아웃
-        binding.calendarGrid.adapter = CalendarAdapter(dates) { day ->
-            val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
-            loadExpensesByDate(selectedDate)
-        }
+        binding.calendarGrid.adapter =
+            CalendarAdapter(dates) { day ->
+                val selectedDate = LocalDate.of(LocalDate.now().year, currentMonth, day)
+                loadExpensesByDate(selectedDate)
+            }
     }
 
     private fun loadExpensesByMonth(month: Int) {

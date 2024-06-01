@@ -14,9 +14,9 @@ import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.data.db.MonthGoalEntity
 import com.example.jaringobi.databinding.ActivityMainBinding
 import com.example.jaringobi.view.addExpensePage.AddExpenseActivity
-import com.example.jaringobi.view.expenseListPage.ExpenseListActivity
 import com.example.jaringobi.view.custom.OnGoalSetListener
 import com.example.jaringobi.view.custom.StartDialog
+import com.example.jaringobi.view.expenseListPage.ExpenseListActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         var nowYear = now.get(Calendar.YEAR)
         var nowMonth = now.get(Calendar.MONTH) + 2
         var monthString = if (nowMonth < 10) "0$nowMonth" else nowMonth.toString()
-        var dateString = "${nowYear}-${monthString}"
+        var dateString = "$nowYear-$monthString"
         checkMonthGoal(dateString)
 
         binding.ivLeft.setOnClickListener {
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             }
             binding.tvNowMonth.text = getString(R.string.text_now_month, nowMonth.toString())
             monthString = if (nowMonth < 10) "0$nowMonth" else nowMonth.toString()
-            dateString = "${nowYear}-${monthString}"
+            dateString = "$nowYear-$monthString"
             checkMonthGoal(dateString)
             updateExpenseList(nowMonth)
         }
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             }
             binding.tvNowMonth.text = getString(R.string.text_now_month, nowMonth.toString())
             monthString = if (nowMonth < 10) "0$nowMonth" else nowMonth.toString()
-            dateString = "${nowYear}-${monthString}"
+            dateString = "$nowYear-$monthString"
             checkMonthGoal(dateString)
             updateExpenseList(nowMonth)
         }
@@ -209,19 +209,21 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                             )
                         binding.ivUpdown.setImageResource(R.drawable.ic_up)
                     } else {
-                        binding.tvCompareCost.text = getString(
-                            R.string.text_compare_expense,
-                            costDifference.toString(),
-                            "더"
-                        )
+                        binding.tvCompareCost.text =
+                            getString(
+                                R.string.text_compare_expense,
+                                costDifference.toString(),
+                                "더",
+                            )
                         binding.ivUpdown.setImageResource(R.drawable.ic_same)
                     }
 
-                    val percentageChange = if (prevTotalCost != 0) {
-                        Math.round((costDifference.toDouble() / prevTotalCost.toDouble()) * 100 * 100) / 100
-                    } else {
-                        0.0
-                    }
+                    val percentageChange =
+                        if (prevTotalCost != 0) {
+                            Math.round((costDifference.toDouble() / prevTotalCost.toDouble()) * 100 * 100) / 100
+                        } else {
+                            0.0
+                        }
                     binding.tvCompareCostPercent.text =
                         getString(R.string.text_compare_expense_percent, percentageChange.toDouble())
                 }
@@ -253,7 +255,10 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         }
     }
 
-    override fun onGoalSet(date: String, monthGoal: Int) {
+    override fun onGoalSet(
+        date: String,
+        monthGoal: Int,
+    ) {
         val goalDAO = db.goalDAO()
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -265,7 +270,10 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         }
     }
 
-    override fun onGoalModify(date: String, monthGoal: Int) {
+    override fun onGoalModify(
+        date: String,
+        monthGoal: Int,
+    ) {
         val goalDAO = db.goalDAO()
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -287,9 +295,10 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         val goalDAO = db.goalDAO()
         // 데이터베이스에서 현재 월에 해당하는 monthGoal 조회
         lifecycleScope.launch {
-            val monthGoal = withContext(Dispatchers.IO) {
-                goalDAO.getMonthGoal(dateString)
-            }
+            val monthGoal =
+                withContext(Dispatchers.IO) {
+                    goalDAO.getMonthGoal(dateString)
+                }
             // 조회 결과에 따라 UI 업데이트
             updateUI(monthGoal)
         }

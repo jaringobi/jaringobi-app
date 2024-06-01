@@ -13,6 +13,5 @@ interface GoalDAO {
     fun updateMonthGoal(month: String, goal: Int) // 해당 월의 지출 목표 수정
 
     @Query("SELECT goal FROM monthGoal WHERE month = :month")
-    fun getMonthGoal(month: String): Int?   // 특정 월의 월 지출 목표 조회, 없을 수도 있으니 Int?로 설정
+    fun getMonthGoal(month: String): Int? // 특정 월의 월 지출 목표 조회, 없을 수도 있으니 Int?로 설정
 }
-

@@ -4,6 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.jaringobi.R
+import com.example.jaringobi.data.db.AppDatabase
+import com.example.jaringobi.data.db.MonthGoalEntity
 import com.example.jaringobi.databinding.ActivityStartBinding
 import com.example.jaringobi.view.custom.OnGoalSetListener
 import com.example.jaringobi.view.custom.StartDialog
@@ -24,13 +28,12 @@ class StartActivity : AppCompatActivity(), OnGoalSetListener {
         setContentView(binding.root)
         db = AppDatabase.getInstance(this)
 
-
         // 현재 년도와 월을 가져옴
         val now = Calendar.getInstance()
         val year = now.get(Calendar.YEAR)
         val month = now.get(Calendar.MONTH) + 1
         val monthString = if (month < 10) "0$month" else month.toString()
-        val dateString = "${year}-${monthString}"
+        val dateString = "$year-$monthString"
         checkMonthGoal(year, month)
 
         binding.btnSelectGoal.setOnClickListener {
@@ -50,7 +53,10 @@ class StartActivity : AppCompatActivity(), OnGoalSetListener {
         finish()
     }
 
-    override fun onGoalSet(date: String, monthGoal: Int) {
+    override fun onGoalSet(
+        date: String,
+        monthGoal: Int,
+    ) {
         val goalDAO = db.goalDAO()
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -60,7 +66,10 @@ class StartActivity : AppCompatActivity(), OnGoalSetListener {
         moveActivity(MainActivity())
     }
 
-    override fun onGoalModify(date: String, monthGoal: Int) {
+    override fun onGoalModify(
+        date: String,
+        monthGoal: Int,
+    ) {
         val goalDAO = db.goalDAO()
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -70,7 +79,10 @@ class StartActivity : AppCompatActivity(), OnGoalSetListener {
         moveActivity(MainActivity())
     }
 
-    private fun checkMonthGoal(year: Int, month: Int) {
+    private fun checkMonthGoal(
+        year: Int,
+        month: Int,
+    ) {
         val goalDAO = db.goalDAO()
 
         lifecycleScope.launch {

@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [ExpenseEntity::class, MonthGoalEntity::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getExpenseDAO(): ExpenseDAO
+
     abstract fun goalDAO(): GoalDAO
 
     companion object {

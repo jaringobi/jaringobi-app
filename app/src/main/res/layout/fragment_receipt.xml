@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/upload_button"
         style="@style/main_semibold_18"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

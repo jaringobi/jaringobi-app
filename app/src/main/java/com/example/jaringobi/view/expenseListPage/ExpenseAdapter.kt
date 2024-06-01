@@ -8,13 +8,18 @@ import com.example.jaringobi.databinding.ItemExpenseBinding
 
 class ExpenseAdapter(private val expenses: List<ExpenseEntity>) :
     RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): ExpenseViewHolder {
         val binding = ItemExpenseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ExpenseViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: ExpenseViewHolder,
+        position: Int,
+    ) {
         holder.bind(expenses[position])
     }
 
@@ -22,7 +27,6 @@ class ExpenseAdapter(private val expenses: List<ExpenseEntity>) :
 
     inner class ExpenseViewHolder(private val binding: ItemExpenseBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(expense: ExpenseEntity) {
             binding.expenseDate.text = expense.date
             binding.expenseName.text = expense.store

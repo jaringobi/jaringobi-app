@@ -30,4 +30,5 @@
     <string name="text_compare_expense">지난 달보다 %s원 %s 썼어요</string>
     <string name="text_compare_expense_percent">%.1f%%</string>
     <string name="upload_receipt">영수증 사진 업로드하기</string>
+    <string name="intro">쉽고 빠른 지출 관리</string>
 </resources>

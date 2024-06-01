@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: AppDatabase
 
+    val decimalFormat = DecimalFormat("#,###")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -254,7 +256,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             binding.layoutWithData.visibility = View.INVISIBLE
         } else {
             binding.btnModifyGoal.visibility = View.VISIBLE
-            binding.tvMonthGoalData.text = monthGoal.toString()
+            binding.tvMonthGoalData.text = decimalFormat.format(monthGoal)
             binding.layoutWithoutData.visibility = View.INVISIBLE
             binding.layoutWithData.visibility = View.VISIBLE
         }
@@ -284,7 +286,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
             withContext(Dispatchers.IO) {
                 goalDAO.updateMonthGoal(date, monthGoal)
                 withContext(Dispatchers.Main) {
-                    binding.tvMonthGoalData.text = monthGoal.toString()
+                    binding.tvMonthGoalData.text = decimalFormat.format(monthGoal)
                 }
             }
         }

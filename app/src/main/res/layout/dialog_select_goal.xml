@@ -2,21 +2,20 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
+    <data />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_round"
-        android:padding="20dp">
+        android:padding="24dp">
 
         <TextView
             android:id="@+id/tv_dialog_title"
-            style="@style/dialog_semibold_20"
+            style="@style/dialog_semibold_18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:labelFor="@id/et_month_goal"
             android:text="@string/text_dialog_title"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
+            android:importantForAutofill="no"
+            android:inputType="number"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@id/tv_won"
             app:layout_constraintStart_toStartOf="@id/tv_dialog_title"
@@ -35,18 +36,18 @@
 
         <TextView
             android:id="@+id/tv_won"
-            style="@style/dialog_semibold_20"
+            style="@style/dialog_semibold_18"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="원"
+            android:text="@string/won"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/et_month_goal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/et_month_goal" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_select_ok"
-            style="@style/dialog_semibold_14"
+            style="@style/dialog_semibold_16"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -58,9 +59,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_month_goal" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_select_no"
-            style="@style/dialog_semibold_14"
+            style="@style/dialog_semibold_16"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/round_rectangle"
@@ -70,6 +71,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_select_ok"
             app:layout_constraintTop_toTopOf="@id/btn_select_ok" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

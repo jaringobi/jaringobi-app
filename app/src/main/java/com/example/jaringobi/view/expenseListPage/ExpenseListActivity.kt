@@ -2,9 +2,9 @@ package com.example.jaringobi.view.expenseListPage
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.lifecycle.lifecycleScope
 import com.example.jaringobi.R
 import com.example.jaringobi.data.db.AppDatabase
 import com.example.jaringobi.data.db.ExpenseDAO
@@ -27,6 +27,11 @@ class ExpenseListActivity : AppCompatActivity() {
         // 뷰 바인딩 초기화
         binding = ActivityExpensesListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 뒤로가기
+        binding.ibBack.setOnClickListener {
+            finish()
+        }
 
         // 데이터베이스 초기화
         expenseDAO = AppDatabase.getInstance(this).getExpenseDAO()

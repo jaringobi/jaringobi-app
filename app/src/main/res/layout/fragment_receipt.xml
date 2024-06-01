@@ -5,15 +5,16 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/upload_button"
-        style="@style/main_medium_20"
+        style="@style/main_semibold_18"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/round_button"
         android:backgroundTint="@color/light_grey"
         android:drawableTop="@drawable/image"
-        android:drawablePadding="20dp"
+        android:drawablePadding="16dp"
         android:paddingVertical="48dp"
         android:text="@string/upload_receipt"
         android:textColor="@color/black" />
 </LinearLayout>
+
+

@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class ExpenseListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityExpensesListBinding
@@ -101,7 +102,7 @@ class ExpenseListActivity : AppCompatActivity() {
     private fun loadExpensesByMonth(month: Int) {
         // 지정된 월의 지출 목록 로드
         lifecycleScope.launch(Dispatchers.IO) {
-            val expenses = expenseDAO.getExpensesByMonth(String.format("%02d", month))
+            val expenses = expenseDAO.getExpensesByMonth(String.format(Locale.KOREA, "%02d", month))
             withContext(Dispatchers.Main) {
                 binding.expensesList.adapter = ExpenseAdapter(expenses)
             }

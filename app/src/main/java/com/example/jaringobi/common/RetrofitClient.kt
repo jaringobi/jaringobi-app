@@ -23,20 +23,15 @@ object RetrofitClient {
             .addInterceptor(loggingInterceptor)
             .build()
 
-    fun getInstance(): Retrofit {
-        if (instance == null) {
-            instance =
-                Retrofit.Builder()
-                    .baseUrl(BuildConfig.OCR_API_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(client)
-                    .build()
-        }
-
-        return instance!!
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.OCR_API_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(client)
+            .build()
     }
 
-    fun getOcr(): OcrRequest {
-        return getInstance().create(OcrRequest::class.java)
+    val ocrService: OcrRequest by lazy {
+        retrofit.create(OcrRequest::class.java)
     }
 }

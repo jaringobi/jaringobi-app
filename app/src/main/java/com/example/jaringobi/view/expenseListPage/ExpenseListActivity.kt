@@ -62,7 +62,7 @@ class ExpenseListActivity : AppCompatActivity() {
                     val selectedDate = LocalDate.of(currentYear, currentMonth, day)
                     loadExpensesByDate(selectedDate)
                 } catch (e: DateTimeException) {
-                    // Invalid date, ignore
+
                 }
             }
 
@@ -112,7 +112,7 @@ class ExpenseListActivity : AppCompatActivity() {
                     val selectedDate = LocalDate.of(currentYear, currentMonth, day)
                     loadExpensesByDate(selectedDate)
                 } catch (e: DateTimeException) {
-                    // Invalid date, ignore
+
                 }
             }
     }

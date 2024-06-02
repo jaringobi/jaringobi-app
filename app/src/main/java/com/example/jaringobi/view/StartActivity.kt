@@ -11,7 +11,7 @@ import com.example.jaringobi.data.db.MonthGoalEntity
 import com.example.jaringobi.databinding.ActivityStartBinding
 import com.example.jaringobi.view.custom.OnGoalSetListener
 import com.example.jaringobi.view.custom.StartDialog
-import com.example.jaringobi.view.mainpage.MainActivity
+import com.example.jaringobi.view.mainPage.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

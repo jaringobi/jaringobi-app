@@ -1,4 +1,4 @@
-package com.example.jaringobi.view.mainpage
+package com.example.jaringobi.view.mainPage
 
 import android.content.Context
 import android.view.LayoutInflater

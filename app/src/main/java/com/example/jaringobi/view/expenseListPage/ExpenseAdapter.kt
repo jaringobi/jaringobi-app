@@ -2,6 +2,7 @@ package com.example.jaringobi.view.expenseListPage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ItemExpenseBinding
@@ -40,6 +41,9 @@ class ExpenseAdapter(
                 expenses = expenses.filter { it.id != expense.id }
                 notifyItemRemoved(adapterPosition)
                 notifyItemRangeChanged(adapterPosition, expenses.size)
+
+                // 삭제 시 토스트 메시지 표시
+                Toast.makeText(binding.root.context, "삭제 완료", Toast.LENGTH_SHORT).show()
             }
         }
     }

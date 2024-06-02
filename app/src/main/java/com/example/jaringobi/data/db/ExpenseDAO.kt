@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface ExpenseDAO {
@@ -15,6 +16,9 @@ interface ExpenseDAO {
 
     @Delete
     suspend fun deleteExpense(expense: ExpenseEntity) // 삭제 메소드 추가
+
+    @Update
+    fun updateExpense(expense: ExpenseEntity) // 지출 내역 업데이트 추가
 
     @Query("DELETE FROM expenseList WHERE id = :expenseId") // ID를 기반으로 특정 지출 내역 삭제
     fun deleteExpenseById(expenseId: Long)

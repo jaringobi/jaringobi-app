@@ -21,7 +21,6 @@ import java.time.DateTimeException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
-import java.util.Locale
 
 class ExpenseListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityExpensesListBinding
@@ -118,16 +117,16 @@ class ExpenseListActivity : AppCompatActivity() {
             }
     }
 
-    private fun loadExpensesByMonth(month: Int) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val expenses = expenseDAO.getExpensesByMonth(String.format(Locale.KOREA, "%02d", month))
-            withContext(Dispatchers.Main) {
-                // ExpenseAdapter 호출 시 삭제 콜백 추가
-                binding.expensesList.adapter =
-                    ExpenseAdapter(expenses.toMutableList(), ::onEditClick, ::onDeleteClick)
-            }
-        }
-    }
+//    private fun loadExpensesByMonth(month: Int) {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            val expenses = expenseDAO.getExpensesByMonth(String.format(Locale.KOREA, "%02d", month))
+//            withContext(Dispatchers.Main) {
+//                // ExpenseAdapter 호출 시 삭제 콜백 추가
+//                binding.expensesList.adapter =
+//                    ExpenseAdapter(expenses.toMutableList(), ::onEditClick, ::onDeleteClick)
+//            }
+//        }
+//    }
 
     private fun loadExpensesByDate(date: LocalDate) {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -164,7 +163,7 @@ class ExpenseListActivity : AppCompatActivity() {
         val dialogBinding = DialogEditExpenseBinding.inflate(layoutInflater)
         dialogBinding.editExpenseDate.setText(expense.date)
         dialogBinding.editExpenseName.setText(expense.store)
-        dialogBinding.editExpenseAmount.setText(expense.cost.toString())
+        dialogBinding.editExpenseAmount.setText(expense.cost)
 
         val dialog =
             AlertDialog.Builder(this)
@@ -198,15 +197,15 @@ class ExpenseListActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadExpenses() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val expenses = expenseDAO.getExpenseList()
-            withContext(Dispatchers.Main) {
-                binding.expensesList.adapter =
-                    ExpenseAdapter(expenses.toMutableList(), ::onEditClick, ::onDeleteClick)
-            }
-        }
-    }
+//    private fun loadExpenses() {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            val expenses = expenseDAO.getExpenseList()
+//            withContext(Dispatchers.Main) {
+//                binding.expensesList.adapter =
+//                    ExpenseAdapter(expenses.toMutableList(), ::onEditClick, ::onDeleteClick)
+//            }
+//        }
+//    }
 
     // onDeleteClick 함수 추가
     private fun onDeleteClick(expense: ExpenseEntity) {

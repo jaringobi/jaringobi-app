@@ -166,16 +166,18 @@ class ExpenseListActivity : AppCompatActivity() {
         dialogBinding.editExpenseName.setText(expense.store)
         dialogBinding.editExpenseAmount.setText(expense.cost.toString())
 
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogBinding.root)
-            .create()
+        val dialog =
+            AlertDialog.Builder(this)
+                .setView(dialogBinding.root)
+                .create()
 
         dialogBinding.btnUpdate.setOnClickListener {
-            val updatedExpense = expense.copy(
-                date = dialogBinding.editExpenseDate.text.toString(),
-                store = dialogBinding.editExpenseName.text.toString(),
-                cost = dialogBinding.editExpenseAmount.text.toString()
-            )
+            val updatedExpense =
+                expense.copy(
+                    date = dialogBinding.editExpenseDate.text.toString(),
+                    store = dialogBinding.editExpenseName.text.toString(),
+                    cost = dialogBinding.editExpenseAmount.text.toString(),
+                )
             updateExpense(updatedExpense)
             dialog.dismiss()
         }

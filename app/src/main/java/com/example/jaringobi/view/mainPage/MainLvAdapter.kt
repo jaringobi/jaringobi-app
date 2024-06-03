@@ -9,7 +9,6 @@ import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ItemRecentCostBinding
 
 class MainLvAdapter(private val context: Context, private val costList: List<ExpenseEntity>) : BaseAdapter() {
-
     override fun getView(
         position: Int,
         convertView: View?,

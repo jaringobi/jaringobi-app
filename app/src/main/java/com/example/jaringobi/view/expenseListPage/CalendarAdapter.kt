@@ -6,9 +6,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jaringobi.R
+import com.example.jaringobi.data.model.CalendarItem
 import com.example.jaringobi.databinding.ItemCalendarDayBinding
 import com.example.jaringobi.databinding.ItemCalendarWeekdayBinding
-import com.example.jaringobi.data.model.CalendarItem
 
 class CalendarAdapter(
     private val items: List<CalendarItem>,

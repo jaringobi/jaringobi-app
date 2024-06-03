@@ -235,7 +235,6 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                             } else {
                                 100.0
                             }
-
                         }
                     binding.tvCompareCostPercent.text =
                         getString(R.string.text_compare_expense_percent, percentageChange.toDouble())

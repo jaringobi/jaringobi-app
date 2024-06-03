@@ -12,9 +12,9 @@ import com.example.jaringobi.R
 import com.example.jaringobi.data.db.AppDatabase
 import com.example.jaringobi.data.db.ExpenseDAO
 import com.example.jaringobi.data.db.ExpenseEntity
+import com.example.jaringobi.data.model.CalendarItem
 import com.example.jaringobi.databinding.ActivityExpensesListBinding
 import com.example.jaringobi.databinding.DialogEditExpenseBinding
-import com.example.jaringobi.data.model.CalendarItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -63,7 +63,6 @@ class ExpenseListActivity : AppCompatActivity() {
                     selectedDate = LocalDate.of(currentYear, currentMonth, day)
                     loadExpensesByDate(selectedDate!!)
                 } catch (e: DateTimeException) {
-
                 }
             }
 
@@ -113,7 +112,6 @@ class ExpenseListActivity : AppCompatActivity() {
                     selectedDate = LocalDate.of(currentYear, currentMonth, day)
                     loadExpensesByDate(selectedDate!!)
                 } catch (e: DateTimeException) {
-
                 }
             }
     }
@@ -126,9 +124,10 @@ class ExpenseListActivity : AppCompatActivity() {
     private fun fetchExpensesByDate(date: String) {
         // 백그라운드에서 데이터베이스 작업을 수행
         lifecycleScope.launch {
-            val expenses = withContext(Dispatchers.IO) {
-                expenseDAO.getExpensesByDate(date)
-            }
+            val expenses =
+                withContext(Dispatchers.IO) {
+                    expenseDAO.getExpensesByDate(date)
+                }
             updateExpenses(expenses)
         }
     }

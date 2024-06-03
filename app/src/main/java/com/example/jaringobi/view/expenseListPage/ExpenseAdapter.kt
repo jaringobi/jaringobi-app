@@ -12,7 +12,6 @@ class ExpenseAdapter(
     private val onEditClick: (ExpenseEntity) -> Unit,
     private val onDeleteClick: (ExpenseEntity) -> Unit,
 ) : RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
-
     fun updateExpenses(newExpenses: List<ExpenseEntity>) {
         expenses.clear()
         expenses.addAll(newExpenses)
@@ -38,7 +37,6 @@ class ExpenseAdapter(
 
     inner class ExpenseViewHolder(private val binding: ItemExpenseBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(expense: ExpenseEntity) {
             binding.expenseDate.text = expense.date
             binding.expenseName.text = expense.store

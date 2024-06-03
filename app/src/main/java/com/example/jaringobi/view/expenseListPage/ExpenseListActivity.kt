@@ -14,7 +14,7 @@ import com.example.jaringobi.data.db.ExpenseDAO
 import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ActivityExpensesListBinding
 import com.example.jaringobi.databinding.DialogEditExpenseBinding
-import com.example.jaringobi.model.CalendarItem
+import com.example.jaringobi.data.model.CalendarItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

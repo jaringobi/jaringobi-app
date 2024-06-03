@@ -1,6 +1,7 @@
 package com.example.jaringobi.view.expenseListPage
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -59,8 +60,8 @@ class ExpenseListActivity : AppCompatActivity() {
         binding.calendarGrid.adapter =
             CalendarAdapter(datesWithWeekdays) { day ->
                 try {
-                    val selectedDate = LocalDate.of(currentYear, currentMonth, day)
-                    loadExpensesByDate(selectedDate)
+                    selectedDate = LocalDate.of(currentYear, currentMonth, day)
+                    loadExpensesByDate(selectedDate!!)
                 } catch (e: DateTimeException) {
 
                 }
@@ -109,34 +110,33 @@ class ExpenseListActivity : AppCompatActivity() {
         binding.calendarGrid.adapter =
             CalendarAdapter(datesWithWeekdays) { day ->
                 try {
-                    val selectedDate = LocalDate.of(currentYear, currentMonth, day)
-                    loadExpensesByDate(selectedDate)
+                    selectedDate = LocalDate.of(currentYear, currentMonth, day)
+                    loadExpensesByDate(selectedDate!!)
                 } catch (e: DateTimeException) {
 
                 }
             }
     }
 
-//    private fun loadExpensesByMonth(month: Int) {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            val expenses = expenseDAO.getExpensesByMonth(String.format(Locale.KOREA, "%02d", month))
-//            withContext(Dispatchers.Main) {
-//                // ExpenseAdapter 호출 시 삭제 콜백 추가
-//                binding.expensesList.adapter =
-//                    ExpenseAdapter(expenses.toMutableList(), ::onEditClick, ::onDeleteClick)
-//            }
-//        }
-//    }
-
     private fun loadExpensesByDate(date: LocalDate) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val formattedDate = date.format(DateTimeFormatter.ofPattern("yy-MM-dd"))
-            val expenses = expenseDAO.getExpensesByDate(formattedDate)
-            withContext(Dispatchers.Main) {
-                // ExpenseAdapter 호출 시 삭제 콜백 추가
-                binding.expensesList.adapter =
-                    ExpenseAdapter(expenses.toMutableList(), ::onEditClick, ::onDeleteClick)
+        val formattedDate = date.format(DateTimeFormatter.ofPattern("yy-MM-dd"))
+        fetchExpensesByDate(formattedDate)
+    }
+
+    private fun fetchExpensesByDate(date: String) {
+        // 백그라운드에서 데이터베이스 작업을 수행
+        lifecycleScope.launch {
+            val expenses = withContext(Dispatchers.IO) {
+                expenseDAO.getExpensesByDate(date)
             }
+            updateExpenses(expenses)
+        }
+    }
+
+    private fun updateExpenses(expenses: List<ExpenseEntity>) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            val adapter = binding.expensesList.adapter as? ExpenseAdapter
+            adapter?.updateExpenses(expenses)
         }
     }
 
@@ -177,6 +177,7 @@ class ExpenseListActivity : AppCompatActivity() {
                     store = dialogBinding.editExpenseName.text.toString(),
                     cost = dialogBinding.editExpenseAmount.text.toString(),
                 )
+            Log.d("TAG", selectedDate.toString())
             updateExpense(updatedExpense)
             dialog.dismiss()
         }
@@ -192,20 +193,13 @@ class ExpenseListActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             expenseDAO.updateExpense(expense)
             withContext(Dispatchers.Main) {
-                selectedDate?.let { loadExpensesByDate(it) }
+                selectedDate?.let {
+                    val formattedDate = it.format(DateTimeFormatter.ofPattern("yy-MM-dd"))
+                    fetchExpensesByDate(formattedDate)
+                }
             }
         }
     }
-
-//    private fun loadExpenses() {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            val expenses = expenseDAO.getExpenseList()
-//            withContext(Dispatchers.Main) {
-//                binding.expensesList.adapter =
-//                    ExpenseAdapter(expenses.toMutableList(), ::onEditClick, ::onDeleteClick)
-//            }
-//        }
-//    }
 
     // onDeleteClick 함수 추가
     private fun onDeleteClick(expense: ExpenseEntity) {

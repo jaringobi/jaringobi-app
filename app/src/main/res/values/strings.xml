@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">jaringobi</string>
+    <string name="intro">쉽고 빠른 지출 관리</string>
+
+    <!-- 지출 내역 추가 페이지 -->
     <string name="receipt_picture">영수증 사진</string>
     <string name="directly">직접 입력</string>
     <string name="place">사용처</string>
@@ -33,8 +36,8 @@
 
     <!-- 지출 목록 페이지 -->
     <string name="month_display">%d월</string>
-    <string name="delete">삭제</string>
-    <string name="mofify">수정</string>
+    <string name="text_dialog_delete">삭제</string>
+    <string name="text_dialog_modify">수정</string>
 
-    <string name="intro">쉽고 빠른 지출 관리</string>
+
 </resources>

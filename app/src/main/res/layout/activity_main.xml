@@ -74,7 +74,7 @@
 
     <Button
         android:id="@+id/btn_modify_goal"
-        android:layout_width="56dp"
+        android:layout_width="64dp"
         android:layout_height="32dp"
         android:layout_marginStart="12dp"
         android:backgroundTint="@color/primary"
@@ -94,19 +94,20 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="24dp"
-        android:visibility="gone"
+
         app:layout_constraintTop_toBottomOf="@id/tv_month_goal">
 
         <TextView
             android:id="@+id/tv_month_goal_data"
             style="@style/main_semibold_20"
+            android:maxWidth="300dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:background="@drawable/bg_month_goal"
             android:backgroundTint="@color/light_grey"
             android:gravity="center"
-            android:paddingHorizontal="132dp"
+            android:paddingHorizontal="100dp"
             android:paddingVertical="14dp"
             android:textColor="@color/black" />
 

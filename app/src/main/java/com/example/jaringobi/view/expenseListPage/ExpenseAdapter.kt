@@ -12,12 +12,12 @@ class ExpenseAdapter(
     private val onEditClick: (ExpenseEntity) -> Unit,
     private val onDeleteClick: (ExpenseEntity) -> Unit,
 ) : RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
-    // 데이터를 업데이트하고 어댑터에 변경 사항을 알리는 메서드 추가
-//    fun updateExpenses(newExpenses: List<ExpenseEntity>) {
-//        expenses.clear()
-//        expenses.addAll(newExpenses)
-//        notifyDataSetChanged()
-//    }
+
+    fun updateExpenses(newExpenses: List<ExpenseEntity>) {
+        expenses.clear()
+        expenses.addAll(newExpenses)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,6 +38,7 @@ class ExpenseAdapter(
 
     inner class ExpenseViewHolder(private val binding: ItemExpenseBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(expense: ExpenseEntity) {
             binding.expenseDate.text = expense.date
             binding.expenseName.text = expense.store

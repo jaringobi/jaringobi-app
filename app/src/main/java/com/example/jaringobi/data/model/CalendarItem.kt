@@ -1,4 +1,4 @@
-package com.example.jaringobi.model
+package com.example.jaringobi.data.model
 
 sealed class CalendarItem {
     data class Weekday(val name: String) : CalendarItem()

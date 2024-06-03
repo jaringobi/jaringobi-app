@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: AppDatabase
 
-    val decimalFormat = DecimalFormat("#,###")
+    private val decimalFormat = DecimalFormat("#,###")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                     sortedExpenseList.map { expense ->
                         val date =
                             LocalDate.parse(expense.date, DateTimeFormatter.ofPattern("yy-MM-dd"))
-                        val dayOfWeek = date.dayOfWeek
+                        val dayOfWeek = date.dayOfWeek!!
                         val dayOfWeekKorean =
                             when (dayOfWeek) {
                                 DayOfWeek.MONDAY -> "월"

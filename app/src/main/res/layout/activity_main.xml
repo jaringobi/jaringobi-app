@@ -94,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="24dp"
-
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tv_month_goal">
 
         <TextView
@@ -109,6 +109,7 @@
             android:gravity="center"
             android:paddingHorizontal="100dp"
             android:paddingVertical="14dp"
+            android:letterSpacing="0.01"
             android:textColor="@color/black" />
 
         <TextView

@@ -9,22 +9,34 @@ import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ItemRecentCostBinding
 
 class MainLvAdapter(private val context: Context, private val costList: List<ExpenseEntity>) : BaseAdapter() {
-    private lateinit var binding: ItemRecentCostBinding
 
     override fun getView(
         position: Int,
         convertView: View?,
         parent: ViewGroup?,
     ): View {
-        binding = ItemRecentCostBinding.inflate(LayoutInflater.from(context))
+        val binding: ItemRecentCostBinding
+        val view: View
+        val viewHolder: ViewHolder
+
+        if (convertView == null) {
+            binding = ItemRecentCostBinding.inflate(LayoutInflater.from(context), parent, false)
+            view = binding.root
+            viewHolder = ViewHolder(binding)
+            view.tag = viewHolder
+        } else {
+            view = convertView
+            viewHolder = view.tag as ViewHolder
+        }
 
         val recentCost = costList[position]
-        with(binding) {
+        with(viewHolder.binding) {
             tvRecentCostDate.text = recentCost.date
             tvRecentCostStore.text = recentCost.store
             tvRecentCostMoney.text = recentCost.cost
         }
-        return binding.root
+
+        return view
     }
 
     override fun getItem(position: Int): Any {
@@ -38,4 +50,6 @@ class MainLvAdapter(private val context: Context, private val costList: List<Exp
     override fun getCount(): Int {
         return if (costList.size > 3) 3 else costList.size
     }
+
+    private class ViewHolder(val binding: ItemRecentCostBinding)
 }

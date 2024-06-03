@@ -36,6 +36,6 @@ class MainLvAdapter(private val context: Context, private val costList: List<Exp
     }
 
     override fun getCount(): Int {
-        ㄴㅇㅁㄴㅇㅁㄴ
+        return costList.size
     }
 }

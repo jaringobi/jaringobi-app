@@ -225,11 +225,17 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                         binding.ivUpdown.setImageResource(R.drawable.ic_same)
                     }
 
+                    // 지난 달 지출 내역이 0원일 때, 이번 달도 0원이면 0.0, 이번 달에 지출내역이 있으면 100.0 표시
                     val percentageChange =
                         if (prevTotalCost != 0) {
                             Math.round((costDifference.toDouble() / prevTotalCost.toDouble()) * 100 * 100) / 100
                         } else {
-                            0.0
+                            if (totalCost == 0) {
+                                0.0
+                            } else {
+                                100.0
+                            }
+
                         }
                     binding.tvCompareCostPercent.text =
                         getString(R.string.text_compare_expense_percent, percentageChange.toDouble())

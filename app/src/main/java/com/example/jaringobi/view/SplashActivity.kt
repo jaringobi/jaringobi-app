@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        // 저장된 정보 있으면 메인으로, 아니면 시작 페이지로
+        // 시작 페이지로 이동
         moveActivity(StartActivity())
     }
 

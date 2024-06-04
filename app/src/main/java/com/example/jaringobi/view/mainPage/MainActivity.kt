@@ -78,14 +78,12 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
         }
 
         binding.btnModifyGoal.setOnClickListener {
-            Log.d("TAG4", dateString)
             val dialog = StartDialog(dateString, true)
             dialog.listener = this
             dialog.show(supportFragmentManager, "StartDialog")
         }
 
         binding.btnSetGoal.setOnClickListener {
-            Log.d("TAG4", dateString)
             val dialog = StartDialog(dateString, false)
             dialog.listener = this
             dialog.show(supportFragmentManager, "StartDialog")
@@ -185,7 +183,9 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                     }
                 // 이전 달 지출 계산
                 val prevTotalCost =
-                    prevExpenseList.sumOf { it.cost.replace(",", "").replace(" 원", "").toInt() }
+                    prevExpenseList.sumOf {
+                        it.cost.replace(",", "").replace(" 원", "").toInt()
+                    }
 
                 withContext(Dispatchers.Main) {
                     val adapter = MainLvAdapter(this@MainActivity, formattedExpenseList)

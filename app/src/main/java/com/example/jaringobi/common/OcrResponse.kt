@@ -20,10 +20,10 @@ data class ReceiptInfo(
 )
 
 data class Result(
-    val storeInfo: StoreInfo,
-    val paymentInfo: PaymentInfo,
-    val subResults: List<SubResult>,
-    val totalPrice: TotalPrice,
+    val storeInfo: StoreInfo?,
+    val paymentInfo: PaymentInfo?,
+    val subResults: List<SubResult>?,
+    val totalPrice: TotalPrice?,
 )
 
 data class StoreInfo(
@@ -40,7 +40,7 @@ data class TextField(
 )
 
 data class FormattedText(
-    val value: String,
+    val value: String?,
 )
 
 data class PaymentInfo(
@@ -56,9 +56,9 @@ data class DateInfo(
 )
 
 data class FormattedDate(
-    val year: String,
-    val month: String,
-    val day: String,
+    val year: String?,
+    val month: String?,
+    val day: String?,
 )
 
 data class TimeInfo(

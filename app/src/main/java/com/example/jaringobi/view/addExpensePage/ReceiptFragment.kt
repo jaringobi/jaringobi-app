@@ -1,13 +1,10 @@
 package com.example.jaringobi.view.addExpensePage
 
-import android.app.Activity
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
@@ -59,20 +56,18 @@ class ReceiptFragment : Fragment() {
     }
 
     private val imageLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                val imageUri = result.data?.data
-
-                if (imageUri != null) {
-                    Log.d("IMAGE", imageUri.toString())
-                    requestOcr(imageUri)
-                }
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            Log.d("IMAGE", uri.toString())
+            if (uri == null) {
+                Toast.makeText(requireContext(), "오류가 발생했습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
+                return@registerForActivityResult
             }
+            Log.d("IMAGE", uri.toString())
+            requestOcr(uri)
         }
 
     private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        imageLauncher.launch(intent)
+        imageLauncher.launch("image/*")
     }
 
     private fun requestOcr(imageUri: Uri) {
@@ -113,11 +108,17 @@ class ReceiptFragment : Fragment() {
                         val ocrResponse = response.body()!!
                         Log.d("SUCCESS", ocrResponse.toString())
 
-                        val year = ocrResponse.images[0].receipt.result.paymentInfo.date.formatted.year.takeLast(2)
-                        val month = ocrResponse.images[0].receipt.result.paymentInfo.date.formatted.month
-                        val date = ocrResponse.images[0].receipt.result.paymentInfo.date.formatted.day
-                        val store = ocrResponse.images[0].receipt.result.storeInfo.name.formatted.value
-                        val cost = ocrResponse.images[0].receipt.result.totalPrice.price.formatted.value
+                        val year =
+                            ocrResponse.images[0].receipt.result.paymentInfo?.date?.formatted?.year?.takeLast(2)
+                        val month = ocrResponse.images[0].receipt.result.paymentInfo?.date?.formatted?.month
+                        val date = ocrResponse.images[0].receipt.result.paymentInfo?.date?.formatted?.day
+                        val store = ocrResponse.images[0].receipt.result.storeInfo?.name?.formatted?.value
+                        val cost = ocrResponse.images[0].receipt.result.totalPrice?.price?.formatted?.value
+
+                        if (year == null || month == null || date == null || store == null || cost == null) {
+                            return Toast.makeText(requireContext(), "영수증 인식에 실패했습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT)
+                                .show()
+                        }
 
                         val decimalFormat = DecimalFormat("#,###")
                         val formattedCost = decimalFormat.format(cost.toInt())
@@ -129,7 +130,6 @@ class ReceiptFragment : Fragment() {
                                 cost = "$formattedCost 원",
                             )
 
-                        // 코루틴
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
                                 val expenseDAO = db.getExpenseDAO()

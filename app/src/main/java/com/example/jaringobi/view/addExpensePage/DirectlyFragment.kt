@@ -52,7 +52,7 @@ class DirectlyFragment : Fragment() {
         val store = storeEditText.text.toString()
         val cost = costEditText.text.toString().toIntOrNull()
 
-        if (store.isEmpty() || cost == null) {
+        if (store.isBlank() || cost == null) {
             return Toast.makeText(requireContext(), "모든 항목을 입력해 주세요.", Toast.LENGTH_SHORT).show()
         }
 

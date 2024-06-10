@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ItemRecentCostBinding
+import java.text.DecimalFormat
 
 class MainLvAdapter(private val context: Context, private val costList: List<ExpenseEntity>) : BaseAdapter() {
     override fun getView(
@@ -28,11 +29,13 @@ class MainLvAdapter(private val context: Context, private val costList: List<Exp
             viewHolder = view.tag as ViewHolder
         }
 
+        val decimalFormat = DecimalFormat("#,###")
+
         val recentCost = costList[position]
         with(viewHolder.binding) {
             tvRecentCostDate.text = recentCost.date
             tvRecentCostStore.text = recentCost.store
-            tvRecentCostMoney.text = recentCost.cost
+            tvRecentCostMoney.text = decimalFormat.format(recentCost.cost) + " 원"
         }
 
         return view

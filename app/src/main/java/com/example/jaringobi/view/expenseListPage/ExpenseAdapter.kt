@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jaringobi.data.db.ExpenseEntity
 import com.example.jaringobi.databinding.ItemExpenseBinding
+import java.text.DecimalFormat
 
 class ExpenseAdapter(
     private var expenses: MutableList<ExpenseEntity>,
@@ -38,9 +39,11 @@ class ExpenseAdapter(
     inner class ExpenseViewHolder(private val binding: ItemExpenseBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(expense: ExpenseEntity) {
+            val decimalFormat = DecimalFormat("#,###")
+
             binding.expenseDate.text = expense.date
             binding.expenseName.text = expense.store
-            binding.expenseAmount.text = expense.cost
+            binding.expenseAmount.text = decimalFormat.format(expense.cost) + " 원"
 
             binding.btnDelete.setOnClickListener {
                 onDeleteClick(expense)

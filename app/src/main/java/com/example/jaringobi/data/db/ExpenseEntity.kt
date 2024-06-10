@@ -13,5 +13,5 @@ data class ExpenseEntity(
     @ColumnInfo
     val store: String,
     @ColumnInfo
-    val cost: String,
+    val cost: Int,
 )

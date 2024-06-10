@@ -13,7 +13,6 @@ import com.example.jaringobi.databinding.FragmentDirectlyBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
 
 class DirectlyFragment : Fragment() {
     private lateinit var binding: FragmentDirectlyBinding
@@ -52,12 +51,9 @@ class DirectlyFragment : Fragment() {
         val store = storeEditText.text.toString()
         val cost = costEditText.text.toString().toIntOrNull()
 
-        if (store.isBlank() || cost == null) {
+        if (store.isBlank() || cost == null || cost <= 0) {
             return Toast.makeText(requireContext(), "모든 항목을 입력해 주세요.", Toast.LENGTH_SHORT).show()
         }
-
-        val decimalFormat = DecimalFormat("#,###")
-        val formattedCost = decimalFormat.format(cost)
 
         db = AppDatabase.getInstance(requireContext())
 
@@ -65,7 +61,7 @@ class DirectlyFragment : Fragment() {
             ExpenseEntity(
                 date = date,
                 store = store,
-                cost = "$formattedCost 원",
+                cost = cost,
             )
 
         CoroutineScope(Dispatchers.IO).launch {

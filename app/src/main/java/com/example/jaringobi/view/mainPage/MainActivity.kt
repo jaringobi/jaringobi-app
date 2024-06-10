@@ -95,28 +95,28 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                 expenseDAO.deleteAllExpenses()
 
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-06-22", store = "맘스터치", cost = "10,000 원"),
+                    ExpenseEntity(date = "24-06-22", store = "맘스터치", cost = 10000),
                 )
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-04-21", store = "맘스터치", cost = "10,000 원"),
+                    ExpenseEntity(date = "24-04-21", store = "맘스터치", cost = 10000),
                 )
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-04-25", store = "맘스터치", cost = "10,000 원"),
+                    ExpenseEntity(date = "24-04-25", store = "맘스터치", cost = 10000),
                 )
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-04-01", store = "맘스터치", cost = "10,000 원"),
+                    ExpenseEntity(date = "24-04-01", store = "맘스터치", cost = 10000),
                 )
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-05-20", store = "이마트 에브리데이", cost = "8,000 원"),
+                    ExpenseEntity(date = "24-05-20", store = "이마트 에브리데이", cost = 8000),
                 )
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-05-20", store = "이마트 에브리데이", cost = "10,000 원"),
+                    ExpenseEntity(date = "24-05-20", store = "이마트 에브리데이", cost = 10000),
                 )
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-05-25", store = "매머드커피", cost = "10,000 원"),
+                    ExpenseEntity(date = "24-05-25", store = "매머드커피", cost = 10000),
                 )
                 expenseDAO.insertExpense(
-                    ExpenseEntity(date = "24-05-24", store = "메가커피", cost = "2,000 원"),
+                    ExpenseEntity(date = "24-05-24", store = "메가커피", cost = 2000),
                 )
                 updateExpenseList(nowMonth)
             }
@@ -176,15 +176,9 @@ class MainActivity : AppCompatActivity(), OnGoalSetListener {
                     }
 
                 // 총 지출 계산
-                val totalCost =
-                    formattedExpenseList.sumOf {
-                        it.cost.replace(",", "").replace(" 원", "").toInt()
-                    }
+                val totalCost = formattedExpenseList.sumOf { it.cost }
                 // 이전 달 지출 계산
-                val prevTotalCost =
-                    prevExpenseList.sumOf {
-                        it.cost.replace(",", "").replace(" 원", "").toInt()
-                    }
+                val prevTotalCost = prevExpenseList.sumOf { it.cost }
 
                 withContext(Dispatchers.Main) {
                     val adapter = MainLvAdapter(this@MainActivity, formattedExpenseList)

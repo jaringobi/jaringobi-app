@@ -28,7 +28,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.DecimalFormat
 
 class ReceiptFragment : Fragment() {
     private lateinit var binding: FragmentReceiptBinding
@@ -113,21 +112,19 @@ class ReceiptFragment : Fragment() {
                         val month = ocrResponse.images[0].receipt.result.paymentInfo?.date?.formatted?.month
                         val date = ocrResponse.images[0].receipt.result.paymentInfo?.date?.formatted?.day
                         val store = ocrResponse.images[0].receipt.result.storeInfo?.name?.formatted?.value
-                        val cost = ocrResponse.images[0].receipt.result.totalPrice?.price?.formatted?.value
+                        val cost =
+                            ocrResponse.images[0].receipt.result.totalPrice?.price?.formatted?.value?.toIntOrNull()
 
                         if (year == null || month == null || date == null || store == null || cost == null) {
                             return Toast.makeText(requireContext(), "영수증 인식에 실패했습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT)
                                 .show()
                         }
 
-                        val decimalFormat = DecimalFormat("#,###")
-                        val formattedCost = decimalFormat.format(cost.toInt())
-
                         val entity =
                             ExpenseEntity(
                                 date = "$year-$month-$date",
                                 store = store,
-                                cost = "$formattedCost 원",
+                                cost = cost,
                             )
 
                         CoroutineScope(Dispatchers.IO).launch {

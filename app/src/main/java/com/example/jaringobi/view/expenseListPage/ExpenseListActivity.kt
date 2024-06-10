@@ -2,6 +2,7 @@ package com.example.jaringobi.view.expenseListPage
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -162,7 +163,7 @@ class ExpenseListActivity : AppCompatActivity() {
         val dialogBinding = DialogEditExpenseBinding.inflate(layoutInflater)
         dialogBinding.editExpenseDate.setText(expense.date)
         dialogBinding.editExpenseName.setText(expense.store)
-        dialogBinding.editExpenseAmount.setText(expense.cost)
+        dialogBinding.editExpenseAmount.setText(expense.cost.toString())
 
         val dialog =
             AlertDialog.Builder(this)
@@ -170,12 +171,20 @@ class ExpenseListActivity : AppCompatActivity() {
                 .create()
 
         dialogBinding.btnUpdate.setOnClickListener {
+            val cost = dialogBinding.editExpenseAmount.text.toString().toIntOrNull()
+
+            if (cost == null || cost <= 0) {
+                Toast.makeText(this, "올바른 금액을 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val updatedExpense =
                 expense.copy(
                     date = dialogBinding.editExpenseDate.text.toString(),
                     store = dialogBinding.editExpenseName.text.toString(),
-                    cost = dialogBinding.editExpenseAmount.text.toString(),
+                    cost = cost,
                 )
+
             Log.d("TAG", selectedDate.toString())
             updateExpense(updatedExpense)
             dialog.dismiss()
